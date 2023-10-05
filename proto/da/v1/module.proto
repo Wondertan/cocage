@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package da.v1;
+
+option go_package = "github.com/Wondertan/da/module";
+
+// Module is the config object of the da module.
+message Module {
+  // authority defines the custom module authority. If not set, defaults to the governance module.
+  string authority = 1;
+}
