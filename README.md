@@ -1,1 +1,3 @@
-# Cosmos DA Module
+# Cosmos Data Availability Module
+
+This package defines a Cosmos SDK module that enables on-chain verification of published data by an external network such as Celestia. Validators continually run a side-car process that samples the published blocks on the external network. They then employ vote extensions to attest to data commitments (merkle roots) over the data published by the external network.
