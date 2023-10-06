@@ -25,7 +25,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client celestia.Cli
 
 		latestHeight, err := da.LatestDataCommitmentHeight(ctx)
 		if err != nil {
-			return nil, err
+			return reject(), err
 		}
 
 		for idx, dataCommitment := range msg.DataCommitments {
@@ -44,7 +44,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client celestia.Cli
 			}
 		}
 
-		return &abci.ResponseProcessProposal{}, nil
+		return accept(), nil
 	}
 }
 
