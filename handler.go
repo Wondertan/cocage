@@ -141,11 +141,3 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 		}, nil
 	}
 }
-
-func ProcessProposalHandler() sdk.ProcessProposalHandler {
-	return func(ctx sdk.Context, req *abci.RequestProcessProposal) (*abci.ResponseProcessProposal, error) {
-		// check if there is a MsgAttestDataCommitment in the proposal
-		// verify it using the da keeper logic
-		return &abci.ResponseProcessProposal{}, nil
-	}
-}
