@@ -37,6 +37,9 @@ import (
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	slashingkeeper "github.com/cosmos/cosmos-sdk/x/slashing/keeper"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
+
+	damodule "github.com/Wondertan/da/modules/da"
+	"github.com/Wondertan/da"
 )
 
 // DefaultNodeHome default home directories for the application daemon
@@ -67,6 +70,7 @@ type SimApp struct {
 	CrisisKeeper   *crisiskeeper.Keeper
 	ParamsKeeper   paramskeeper.Keeper
 	EvidenceKeeper evidencekeeper.Keeper
+	DAKeeper       damodule.Keeper
 
 	// simulation manager
 	sm *module.SimulationManager
@@ -121,6 +125,7 @@ func NewSimApp(
 		&app.CrisisKeeper,
 		&app.ParamsKeeper,
 		&app.EvidenceKeeper,
+		&app.DAKeeper,
 	); err != nil {
 		panic(err)
 	}
@@ -160,6 +165,10 @@ func NewSimApp(
 	// 	app.UpgradeKeeper.SetModuleVersionMap(ctx, app.ModuleManager.GetVersionMap())
 	// 	return app.App.InitChainer(ctx, req)
 	// })
+
+	daClient := 
+
+	app.SetPrepareProposal(da.PrepareProposalHandler(app.DAKeeper, app.txConfig, ))
 
 	if err := app.Load(loadLatest); err != nil {
 		panic(err)
