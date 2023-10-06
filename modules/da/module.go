@@ -13,12 +13,10 @@ import (
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	staking "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
-	celestia "github.com/rollkit/celestia-openrpc"
 )
 
 // ConsensusVersion defines the current da module consensus version.
@@ -77,12 +75,11 @@ type AppModule struct {
 	AppModuleBasic
 
 	keeper Keeper
-	da     celestia.Client
 }
 
 // NewAppModule creates a new AppModule object
-func NewAppModule(keeper Keeper, da celestia.Client) AppModule {
-	return AppModule{keeper: keeper, da: da}
+func NewAppModule(keeper Keeper) AppModule {
+	return AppModule{keeper: keeper}
 }
 
 // IsOnePerModuleType implements the depinject.OnePerModuleType interface.
@@ -127,7 +124,6 @@ type ModuleInputs struct {
 	Cdc           codec.BinaryCodec
 	StoreService  store.KVStoreService
 	StakingKeeper staking.Keeper
-	Opts          servertypes.AppOptions
 }
 
 type ModuleOutputs struct {
@@ -144,11 +140,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.StakingKeeper,
 	)
 
-	client, ok := in.Opts.Get("celestia-client").(celestia.Client)
-	if !ok {
-		panic("panic for now")
-	}
-	module := NewAppModule(keeper, client)
+	module := NewAppModule(keeper)
 
 	return ModuleOutputs{DAKeeper: keeper, Module: module}
 }
