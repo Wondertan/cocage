@@ -8,5 +8,5 @@ message GenesisState {
     // LatestCounterpartyHeight defines the height that nodes
     // should begin sampling the counterparty chain from. The
     // data root must start at this height
-    int64 latest_counterparty_height = 1;
+    uint64 latest_counterparty_height = 1;
 }

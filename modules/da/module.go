@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	staking "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -48,7 +49,7 @@ type AppModule struct {
 	AppModuleBasic
 
 	keeper Keeper
-	da celestia.Client
+	da     celestia.Client
 }
 
 // NewAppModule creates a new AppModule object
@@ -75,7 +76,7 @@ type ModuleInputs struct {
 	Cdc           codec.BinaryCodec
 	StoreService  store.KVStoreService
 	StakingKeeper staking.Keeper
-	Opts          types.AppOptions
+	Opts          servertypes.AppOptions
 }
 
 type ModuleOutputs struct {

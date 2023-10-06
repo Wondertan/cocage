@@ -32,7 +32,7 @@ func NewKeeper(
 	}
 }
 
-func (k Keeper) LatestCommitmentHeight(ctx context.Context) (int64, error) {
+func (k Keeper) LatestDataCommitmentHeight(ctx context.Context) (uint64, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	iter := storetypes.KVStoreReversePrefixIterator(runtime.KVStoreAdapter(store), []byte{DataCommitmentPrefix})
 	defer iter.Close()
@@ -42,7 +42,7 @@ func (k Keeper) LatestCommitmentHeight(ctx context.Context) (int64, error) {
 	return ParseDataCommitmentKey(iter.Key()), iter.Error()
 }
 
-func (k Keeper) OldestCommitmentHeight(ctx context.Context) (int64, error) {
+func (k Keeper) OldestDataCommitmentHeight(ctx context.Context) (uint64, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	iter := storetypes.KVStorePrefixIterator(runtime.KVStoreAdapter(store), []byte{DataCommitmentPrefix})
 	defer iter.Close()
@@ -52,32 +52,32 @@ func (k Keeper) OldestCommitmentHeight(ctx context.Context) (int64, error) {
 	return ParseDataCommitmentKey(iter.Key()), iter.Error()
 }
 
-func (k Keeper) GetDataCommitment(ctx context.Context, height int64) ([]byte, error) {
+func (k Keeper) GetDataCommitment(ctx context.Context, height uint64) ([]byte, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Get(DataCommitmentKey(height))
 }
 
-func (k Keeper) HasDataCommitment(ctx context.Context, height int64) (bool, error) {
+func (k Keeper) HasDataCommitment(ctx context.Context, height uint64) (bool, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Has(DataCommitmentKey(height))
 }
 
-func (k Keeper) SetDataCommitment(ctx context.Context, height int64, dataCommitment []byte) error {
+func (k Keeper) SetDataCommitment(ctx context.Context, height uint64, dataCommitment []byte) error {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Set(DataCommitmentKey(height), dataCommitment)
 }
 
-func (k Keeper) DeleteDataCommitment(ctx context.Context, height int64) error {
+func (k Keeper) DeleteDataCommitment(ctx context.Context, height uint64) error {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Delete(DataCommitmentKey(height))
 }
 
 const DataCommitmentPrefix = byte(0x01)
 
-func DataCommitmentKey(height int64) []byte {
-	return binary.BigEndian.AppendUint64([]byte{DataCommitmentPrefix}, uint64(height))
+func DataCommitmentKey(height uint64) []byte {
+	return binary.BigEndian.AppendUint64([]byte{DataCommitmentPrefix}, height)
 }
 
-func ParseDataCommitmentKey(key []byte) int64 {
-	return int64(binary.BigEndian.Uint64(key[1:]))
+func ParseDataCommitmentKey(key []byte) uint64 {
+	return binary.BigEndian.Uint64(key[1:])
 }

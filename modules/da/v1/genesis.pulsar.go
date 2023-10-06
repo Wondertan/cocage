@@ -87,8 +87,8 @@ func (x *fastReflection_GenesisState) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_GenesisState) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.LatestCounterpartyHeight != int64(0) {
-		value := protoreflect.ValueOfInt64(x.LatestCounterpartyHeight)
+	if x.LatestCounterpartyHeight != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LatestCounterpartyHeight)
 		if !f(fd_GenesisState_latest_counterparty_height, value) {
 			return
 		}
@@ -109,7 +109,7 @@ func (x *fastReflection_GenesisState) Range(f func(protoreflect.FieldDescriptor,
 func (x *fastReflection_GenesisState) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "da.v1.GenesisState.latest_counterparty_height":
-		return x.LatestCounterpartyHeight != int64(0)
+		return x.LatestCounterpartyHeight != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.GenesisState"))
@@ -127,7 +127,7 @@ func (x *fastReflection_GenesisState) Has(fd protoreflect.FieldDescriptor) bool 
 func (x *fastReflection_GenesisState) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "da.v1.GenesisState.latest_counterparty_height":
-		x.LatestCounterpartyHeight = int64(0)
+		x.LatestCounterpartyHeight = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.GenesisState"))
@@ -146,7 +146,7 @@ func (x *fastReflection_GenesisState) Get(descriptor protoreflect.FieldDescripto
 	switch descriptor.FullName() {
 	case "da.v1.GenesisState.latest_counterparty_height":
 		value := x.LatestCounterpartyHeight
-		return protoreflect.ValueOfInt64(value)
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.GenesisState"))
@@ -168,7 +168,7 @@ func (x *fastReflection_GenesisState) Get(descriptor protoreflect.FieldDescripto
 func (x *fastReflection_GenesisState) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	case "da.v1.GenesisState.latest_counterparty_height":
-		x.LatestCounterpartyHeight = value.Int()
+		x.LatestCounterpartyHeight = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.GenesisState"))
@@ -205,7 +205,7 @@ func (x *fastReflection_GenesisState) Mutable(fd protoreflect.FieldDescriptor) p
 func (x *fastReflection_GenesisState) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "da.v1.GenesisState.latest_counterparty_height":
-		return protoreflect.ValueOfInt64(int64(0))
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.GenesisState"))
@@ -375,7 +375,7 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.LatestCounterpartyHeight |= int64(b&0x7F) << shift
+					x.LatestCounterpartyHeight |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -437,7 +437,7 @@ type GenesisState struct {
 	// LatestCounterpartyHeight defines the height that nodes
 	// should begin sampling the counterparty chain from. The
 	// data root must start at this height
-	LatestCounterpartyHeight int64 `protobuf:"varint,1,opt,name=latest_counterparty_height,json=latestCounterpartyHeight,proto3" json:"latest_counterparty_height,omitempty"`
+	LatestCounterpartyHeight uint64 `protobuf:"varint,1,opt,name=latest_counterparty_height,json=latestCounterpartyHeight,proto3" json:"latest_counterparty_height,omitempty"`
 }
 
 func (x *GenesisState) Reset() {
@@ -460,7 +460,7 @@ func (*GenesisState) Descriptor() ([]byte, []int) {
 	return file_da_v1_genesis_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GenesisState) GetLatestCounterpartyHeight() int64 {
+func (x *GenesisState) GetLatestCounterpartyHeight() uint64 {
 	if x != nil {
 		return x.LatestCounterpartyHeight
 	}
@@ -474,7 +474,7 @@ var file_da_v1_genesis_proto_rawDesc = []byte{
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x22, 0x4c, 0x0a, 0x0c,
 	0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x3c, 0x0a, 0x1a,
 	0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x61,
-	0x72, 0x74, 0x79, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x72, 0x74, 0x79, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
 	0x52, 0x18, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x65, 0x72, 0x70,
 	0x61, 0x72, 0x74, 0x79, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x42, 0x27, 0x5a, 0x25, 0x67, 0x69,
 	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x57, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x74,
