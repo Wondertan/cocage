@@ -1,9 +1,6 @@
-//go:build !app_v1
-
-package simapp
+package test
 
 import (
-	"context"
 	"io"
 	"os"
 	"path/filepath"
@@ -41,7 +38,6 @@ import (
 
 	"github.com/Wondertan/da"
 	damodule "github.com/Wondertan/da/modules/da"
-	celestia "github.com/rollkit/celestia-openrpc"
 )
 
 // DefaultNodeHome default home directories for the application daemon
@@ -93,8 +89,7 @@ func NewSimApp(
 	db dbm.DB,
 	traceStore io.Writer,
 	loadLatest bool,
-	daClientAddr string,
-	daClientToken string,
+	daClient da.Client,
 	appOpts servertypes.AppOptions,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) *SimApp {
@@ -158,12 +153,6 @@ func NewSimApp(
 	app.sm = module.NewSimulationManagerFromAppModules(app.ModuleManager.Modules, overrideModules)
 
 	app.sm.RegisterStoreDecoders()
-
-	// setup a connection with the local da client
-	daClient, err := celestia.NewClient(context.TODO(), daClientAddr, daClientToken)
-	if err != nil {
-		panic(err)
-	}
 
 	// setup the handlers that enable the publishing of data commitments
 	// to the da module
@@ -277,4 +266,11 @@ func BlockedAddresses() map[string]bool {
 	}
 
 	return result
+}
+
+type EmptyAppOptions struct{}
+
+// Get implements AppOptions
+func (ao EmptyAppOptions) Get(_ string) interface{} {
+	return nil
 }

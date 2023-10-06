@@ -1,4 +1,4 @@
-package simapp
+package test
 
 import (
 	"time"

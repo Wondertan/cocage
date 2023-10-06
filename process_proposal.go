@@ -9,7 +9,6 @@ import (
 	v1 "github.com/Wondertan/da/modules/da/v1"
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	celestia "github.com/rollkit/celestia-openrpc"
 )
 
 // ProcessProposalHandler is required for using the DA module. It loops to
@@ -18,7 +17,7 @@ import (
 // checking that each height listed in the message has been sampled and is
 // "available" to the node. Futhermore it checks that the data root matches
 // it's local data root. If this passes, it approves the proposal
-func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client *celestia.Client) sdk.ProcessProposalHandler {
+func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client Client) sdk.ProcessProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestProcessProposal) (*abci.ResponseProcessProposal, error) {
 		msg := findDataCommitmentMsg(dec, req.Txs)
 		if msg == nil {
@@ -33,7 +32,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client *celestia.Cl
 		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
 		defer cancel()
 
-		stats, err := client.DAS.SamplingStats(timeoutCtx)
+		stats, err := client.SamplingStats(timeoutCtx)
 		if err != nil {
 			return reject(), nil
 		}
@@ -48,7 +47,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client *celestia.Cl
 			// already indicated the sampled heights in the vote extensions.
 			// What would be more reliable is to cache the sampled header's
 			// data roots so we don't have to make a second remote call
-			header, err := client.Header.GetByHeight(timeoutCtx, height)
+			header, err := client.GetByHeight(timeoutCtx, height)
 			if err != nil {
 				return reject(), nil
 			}
