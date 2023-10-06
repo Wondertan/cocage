@@ -9,7 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	modulev1 "github.com/Wondertan/da/proto/da/v1"
+	modulev1 "github.com/Wondertan/da/modules/da/v1"
 )
 
 // ConsensusVersion defines the current da module consensus version.

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package da.v1;
+
+option go_package = "github.com/Wondertan/da/module";
+
+// GenesisState defines the da module's genesis state.
+message GenesisState {
+    // LatestCounterpartyHeight defines the height that nodes
+    // should begin sampling the counterparty chain from. The
+    // data root must start at this height
+    int64 latest_counterparty_height = 1;
+}
