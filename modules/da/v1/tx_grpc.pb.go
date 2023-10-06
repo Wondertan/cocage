@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: da/v1/tx.proto
 
-package module
+package v1
 
 import (
 	context "context"
@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	AttestDataRoot(ctx context.Context, in *MsgAttestDataRoot, opts ...grpc.CallOption) (*MsgAttestDataRootResponse, error)
+	AttestDataRoot(ctx context.Context, in *MsgAttestDataCommitment, opts ...grpc.CallOption) (*MsgAttestDataCommitmentResponse, error)
 }
 
 type msgClient struct {
@@ -37,8 +37,8 @@ func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) AttestDataRoot(ctx context.Context, in *MsgAttestDataRoot, opts ...grpc.CallOption) (*MsgAttestDataRootResponse, error) {
-	out := new(MsgAttestDataRootResponse)
+func (c *msgClient) AttestDataRoot(ctx context.Context, in *MsgAttestDataCommitment, opts ...grpc.CallOption) (*MsgAttestDataCommitmentResponse, error) {
+	out := new(MsgAttestDataCommitmentResponse)
 	err := c.cc.Invoke(ctx, Msg_AttestDataRoot_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (c *msgClient) AttestDataRoot(ctx context.Context, in *MsgAttestDataRoot, o
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	AttestDataRoot(context.Context, *MsgAttestDataRoot) (*MsgAttestDataRootResponse, error)
+	AttestDataRoot(context.Context, *MsgAttestDataCommitment) (*MsgAttestDataCommitmentResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -58,7 +58,7 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (UnimplementedMsgServer) AttestDataRoot(context.Context, *MsgAttestDataRoot) (*MsgAttestDataRootResponse, error) {
+func (UnimplementedMsgServer) AttestDataRoot(context.Context, *MsgAttestDataCommitment) (*MsgAttestDataCommitmentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AttestDataRoot not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
@@ -75,7 +75,7 @@ func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {
 }
 
 func _Msg_AttestDataRoot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgAttestDataRoot)
+	in := new(MsgAttestDataCommitment)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func _Msg_AttestDataRoot_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Msg_AttestDataRoot_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).AttestDataRoot(ctx, req.(*MsgAttestDataRoot))
+		return srv.(MsgServer).AttestDataRoot(ctx, req.(*MsgAttestDataCommitment))
 	}
 	return interceptor(ctx, in, info, handler)
 }

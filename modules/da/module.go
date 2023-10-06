@@ -1,4 +1,4 @@
-package module
+package da
 
 import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"

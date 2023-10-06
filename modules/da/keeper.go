@@ -1,13 +1,13 @@
-package module
+package da
 
 import (
+	"context"
 	"encoding/binary"
 
 	"cosmossdk.io/core/store"
 	storetypes "cosmossdk.io/store/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/runtime"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 const ModuleName = "da"
@@ -21,7 +21,7 @@ func NewKeeper(cdc codec.BinaryCodec, storeService store.KVStoreService) Keeper 
 	return Keeper{cdc: cdc, storeService: storeService}
 }
 
-func (k Keeper) LatestCommitmentHeight(ctx sdk.Context) (int64, error) {
+func (k Keeper) LatestCommitmentHeight(ctx context.Context) (int64, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	iter := storetypes.KVStoreReversePrefixIterator(runtime.KVStoreAdapter(store), []byte{DataCommitmentPrefix})
 	defer iter.Close()
@@ -31,7 +31,7 @@ func (k Keeper) LatestCommitmentHeight(ctx sdk.Context) (int64, error) {
 	return ParseDataCommitmentKey(iter.Key()), iter.Error()
 }
 
-func (k Keeper) OldestCommitmentHeight(ctx sdk.Context) (int64, error) {
+func (k Keeper) OldestCommitmentHeight(ctx context.Context) (int64, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	iter := storetypes.KVStorePrefixIterator(runtime.KVStoreAdapter(store), []byte{DataCommitmentPrefix})
 	defer iter.Close()
@@ -41,19 +41,24 @@ func (k Keeper) OldestCommitmentHeight(ctx sdk.Context) (int64, error) {
 	return ParseDataCommitmentKey(iter.Key()), iter.Error()
 }
 
-func (k Keeper) GetDataCommitment(ctx sdk.Context, height int64) ([]byte, error) {
+func (k Keeper) GetDataCommitment(ctx context.Context, height int64) ([]byte, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Get(DataCommitmentKey(height))
 }
 
-func (k Keeper) HasDataCommitment(ctx sdk.Context, height int64) (bool, error) {
+func (k Keeper) HasDataCommitment(ctx context.Context, height int64) (bool, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Has(DataCommitmentKey(height))
 }
 
-func (k Keeper) SetDataCommitment(ctx sdk.Context, height int64, dataCommitment []byte) error {
+func (k Keeper) SetDataCommitment(ctx context.Context, height int64, dataCommitment []byte) error {
 	store := k.storeService.OpenKVStore(ctx)
 	return store.Set(DataCommitmentKey(height), dataCommitment)
+}
+
+func (k Keeper) DeleteDataCommitment(ctx context.Context, height int64) error {
+	store := k.storeService.OpenKVStore(ctx)
+	return store.Delete(DataCommitmentKey(height))
 }
 
 const DataCommitmentPrefix = byte(0x01)

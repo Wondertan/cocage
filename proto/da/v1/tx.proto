@@ -1,21 +1,21 @@
 syntax = "proto3";
 package da.v1;
 
-option go_package = "github.com/Wondertan/da/module";
+option go_package = "github.com/Wondertan/da/modules/da/v1";
 
 service Msg {
-    rpc AttestDataRoot(MsgAttestDataRoot) returns(MsgAttestDataRootResponse);
+    rpc AttestDataRoot(MsgAttestDataCommitment) returns(MsgAttestDataCommitmentResponse);
 }
 
-message MsgAttestDataRoot {
-    bytes data_root = 1;
+message MsgAttestDataCommitment {
+    bytes data_commitment = 1;
     int64 height = 2;
-    repeated Signature signatures = 3;
+    repeated Attestation attestations = 3;
 }
 
-message Signature {
+message Attestation {
     string validator_address = 1;
     bytes signature = 2;
 }
 
-message MsgAttestDataRootResponse {}
+message MsgAttestDataCommitmentResponse {}

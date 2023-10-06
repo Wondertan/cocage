@@ -1,7 +1,7 @@
 syntax = "proto3";
 package da.v1;
 
-option go_package = "github.com/Wondertan/da/module";
+option go_package = "github.com/Wondertan/da/modules/da/v1";
 
 // GenesisState defines the da module's genesis state.
 message GenesisState {
