@@ -10,11 +10,12 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	celestia "github.com/rollkit/celestia-openrpc"
+	"google.golang.org/protobuf/proto"
 )
 
 func VoteExtensionHandler(da da.Keeper, client celestia.Client) sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
-		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second)
+		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
 		defer cancel()
 
 		resp := &abci.ResponseExtendVote{}
@@ -28,18 +29,17 @@ func VoteExtensionHandler(da da.Keeper, client celestia.Client) sdk.ExtendVoteHa
 			return resp, fmt.Errorf("getting DA sampling stats: %w", err)
 		}
 
-		if latestHeight >= stats.SampleChainHead {
+		if latestHeight >= stats.SampledChainHead {
 			// no new heights sampled, skip...
 			return resp, nil
 		}
-		toSample := stats.SampledChainHead - latestHeight
 
 		latestHeader, err := client.Header.GetByHeight(timeoutCtx, latestHeight)
 		if err != nil {
 			return resp, fmt.Errorf("getting latest commitment DA header height %d: %w", latestHeight, err)
 		}
 
-		hdrs, err := client.Header.GetVerifiedRangeByHeight(timeoutCtx, latestHeader, toSample)
+		hdrs, err := client.Header.GetVerifiedRangeByHeight(timeoutCtx, latestHeader, stats.SampledChainHead+1)
 		if err != nil {
 			return resp, fmt.Errorf("getting DA header range(%d;%d] for sampling: %w", latestHeader.Height(), stats.SampledChainHead, err)
 		}
@@ -52,22 +52,74 @@ func VoteExtensionHandler(da da.Keeper, client celestia.Client) sdk.ExtendVoteHa
 			}
 		}
 
-		voteExtensionData := v1.VoteExtensionData{
-			DataTuples: tuples,
-		}
-
-		bz, err := voteExtensionData.Marshal()
-		if err != nil {
-			return resp, err
-		}
-
-		resp.VoteExtension = bz
-		return resp, nil
+		voteExtensionData := v1.VoteExtensionData{DataTuples: tuples}
+		resp.VoteExtension, err = voteExtensionData.Marshal()
+		return resp, err
 	}
 }
 
-func PrepareProposalHandler() sdk.PrepareProposalHandler {
+func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
+		resp := &abci.ResponsePrepareProposal{}
+
+
+		var maxTuples int
+		votes := map[string]*v1.VoteExtensionData{} // address -> vote extension
+		attests := make([]*v1.Attestation, len(req.LocalLastCommit.Votes))
+
+		for i, vt := range req.LocalLastCommit.Votes {
+			data := &v1.VoteExtensionData{}
+			err := proto.Unmarshal(vt.VoteExtension, data)
+			if err != nil {
+				return resp, fmt.Errorf("unmarshalling vote extension: %w", err)
+			}
+
+			votes[string(vt.Validator.Address)] = data
+			attests[i] = &v1.Attestation{
+				ValidatorAddress: string(vt.Validator.Address), // TODO change to bytes
+				Size: uint32(len(data.DataTuples)),
+				Signature:        vt.ExtensionSignature,
+			}
+			if len(data.DataTuples) > maxTuples {
+				maxTuples = len(data.DataTuples)
+			}
+		}
+
+		// TODO: We have to cross check validity of signed datatuples
+		//  If height is adequate and matches the dataroot
+
+		daHeights := make(map[uint64][][]byte, maxTuples)
+		for i := 0; i < maxTuples; i++ {
+			var height uint64
+			for _, vt := range votes {
+				// get the first vote that has the ith height
+				if len(vt.DataTuples) <= i {
+					height = vt.DataTuples[i].Height
+					break
+				}
+			}
+
+			for addr, vt := range votes {
+				if  vt.DataTuples[i].Height == height {
+					// only add validator address if it signed over the height
+					daHeights[height] = append(daHeights[height], []byte(addr))
+				}
+			}
+		}
+
+		endHeight, err := da.HighestHeightWithMajority(ctx.Context(), daHeights)
+		if err != nil {
+			return nil, err
+		}
+
+
+		msg := &v1.MsgAttestDataCommitment{
+			Attestations: attests,
+			EndHeight:    endHeight,
+		}
+
+
+
 		// create the MsgAttestDataCommitment from the req.LocalLastCommit.Votes (which contain the vote extensions)
 		// insert the transaction as the first transaction in the response
 		// check that the max size is not reached

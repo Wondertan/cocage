@@ -32,6 +32,17 @@ func NewKeeper(
 	}
 }
 
+func (k Keeper) HighestHeightWithMajority(ctx context.Context, heights map[uint64][][]byte) (uint64, error) {
+	// TODO: Obviously this has to take into account the stake of the validators
+	var last uint64
+	for height := range heights {
+		if height > last {
+			last = height
+		}
+	}
+	return last, nil
+}
+
 func (k Keeper) LatestDataCommitmentHeight(ctx context.Context) (uint64, error) {
 	store := k.storeService.OpenKVStore(ctx)
 	iter := storetypes.KVStoreReversePrefixIterator(runtime.KVStoreAdapter(store), []byte{DataCommitmentPrefix})
