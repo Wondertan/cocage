@@ -16,7 +16,7 @@ import (
 // checking that each height listed in the message has been sampled and is
 // "available" to the node. Futhermore it checks that the data root matches
 // it's local data root. If this passes, it approves the proposal
-func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client celestia.Client) sdk.ProcessProposalHandler {
+func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client *celestia.Client) sdk.ProcessProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestProcessProposal) (*abci.ResponseProcessProposal, error) {
 		msg := findDataCommitmentMsg(dec, req.Txs)
 		if msg == nil {
