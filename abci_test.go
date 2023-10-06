@@ -3,10 +3,11 @@ package da_test
 import (
 	"context"
 	"testing"
+	"time"
 
 	"cosmossdk.io/log"
-	"github.com/Wondertan/da"
-	"github.com/Wondertan/da/test"
+	da "github.com/Wondertan/cocage"
+	"github.com/Wondertan/cocage/test"
 	abci "github.com/cometbft/cometbft/abci/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/rollkit/celestia-openrpc/types/das"
@@ -15,6 +16,8 @@ import (
 )
 
 func Test_DA_E2E(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
 	db := dbm.NewMemDB()
 	logger := log.NewTestLogger(t)
 	daClient := &mockClient{}
@@ -22,6 +25,26 @@ func Test_DA_E2E(t *testing.T) {
 
 	_, err := testApp.InitChain(&abci.RequestInitChain{})
 	require.NoError(t, err)
+
+	// assert that the app responds with the height of the last
+	// sampled header on the DA network
+	extendVoteResp, err := testApp.ExtendVote(ctx, &abci.RequestExtendVote{})
+
+	// Move on to height 2
+	_, err = testApp.Commit()
+	require.NoError(t, err)
+
+	// generate a local commit info from the vote extensions
+	prepareProposalResp, err := testApp.PrepareProposal(&abci.RequestPrepareProposal{})
+	require.NoError(t, err)
+
+	// assert that the node only votes for the block if the data commitments match
+	processProposalResp, err := testApp.ProcessProposal(&abci.RequestProcessProposal{})
+
+	// assert that when the transaction is submitted that the da module
+	// correctly updates its state
+	_, err := testApp.FinalizeBlock(&abci.RequestFinalizeBlock{})
+
 }
 
 var _ da.Client = mockClient{}
