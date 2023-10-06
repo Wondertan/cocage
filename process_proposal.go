@@ -3,10 +3,11 @@ package da
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"time"
 
-	"github.com/Wondertan/da/modules/da"
-	v1 "github.com/Wondertan/da/modules/da/v1"
+	"github.com/Wondertan/cocage/modules/da"
+	v1 "github.com/Wondertan/cocage/modules/da/v1"
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -26,7 +27,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client Client) sdk.
 
 		latestHeight, err := da.LatestDataCommitmentHeight(ctx)
 		if err != nil {
-			return reject(), err
+			return reject(), fmt.Errorf("getting latest commitment DA height: %w", err)
 		}
 
 		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long

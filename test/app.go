@@ -36,8 +36,8 @@ import (
 	slashingkeeper "github.com/cosmos/cosmos-sdk/x/slashing/keeper"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 
-	"github.com/Wondertan/da"
-	damodule "github.com/Wondertan/da/modules/da"
+	"github.com/Wondertan/cocage"
+	damodule "github.com/Wondertan/cocage/modules/da"
 )
 
 // DefaultNodeHome default home directories for the application daemon
