@@ -3,6 +3,7 @@ package da
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/Wondertan/da/modules/da"
@@ -27,7 +28,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client *celestia.Cl
 
 		latestHeight, err := da.LatestDataCommitmentHeight(ctx)
 		if err != nil {
-			return reject(), err
+			return reject(), fmt.Errorf("getting latest commitment DA height: %w", err)
 		}
 
 		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
