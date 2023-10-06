@@ -6,7 +6,12 @@ import (
 	"crypto/sha256"
 )
 
-const HashSize = sha256.Size
+const (
+	HashSize = sha256.Size
+
+	// There can only be 10 data root attestations per block
+	MaxAttestations = 10
+) 
 
 func (msg MsgAttestDataCommitment) ValidateBasic() error {
 	for idx, dataCommitment := range msg.DataCommitments {
@@ -22,6 +27,14 @@ func (msg MsgAttestDataCommitment) ValidateBasic() error {
 	for idx, attestation := range msg.Attestations {
 		if attestation == nil {
 			return fmt.Errorf("attestation at index %d is nil", idx)
+		}
+
+		if int(attestation.Size) > len(msg.DataCommitments) {
+			return fmt.Errorf("attestation size exceeded number of data commitments: %d > %d", attestation.Size, len(msg.DataCommitments))
+		}
+
+		if int(attestation.Size) > MaxAttestations {
+			return fmt.Errorf("attestation size exceeded max allowed: %d > %d", attestation.Size, MaxAttestations)
 		}
 	}
 
