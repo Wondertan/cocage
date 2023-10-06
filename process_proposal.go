@@ -2,6 +2,8 @@ package da
 
 import (
 	"bytes"
+	"context"
+	"time"
 
 	"github.com/Wondertan/da/modules/da"
 	v1 "github.com/Wondertan/da/modules/da/v1"
@@ -28,14 +30,25 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client celestia.Cli
 			return reject(), err
 		}
 
+		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
+		defer cancel()
+
+		stats, err := client.DAS.SamplingStats(timeoutCtx)
+		if err != nil {
+			return reject(), nil
+		}
+
 		for idx, dataCommitment := range msg.DataCommitments {
 			height := uint64(idx) + latestHeight + 1
+			if stats.SampledChainHead < height {
+				return reject(), nil
+			}
 			// TODO: these should theoretically be all the heights
 			// that the node has already sampled as it would have
 			// already indicated the sampled heights in the vote extensions.
 			// What would be more reliable is to cache the sampled header's
 			// data roots so we don't have to make a second remote call
-			header, err := client.Header.GetByHeight(ctx, height)
+			header, err := client.Header.GetByHeight(timeoutCtx, height)
 			if err != nil {
 				return reject(), nil
 			}
@@ -43,6 +56,7 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client celestia.Cli
 				return reject(), nil
 			}
 		}
+
 
 		return accept(), nil
 	}
