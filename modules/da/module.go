@@ -1,15 +1,16 @@
 package da
 
 import (
-	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/depinject"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	modulev1 "github.com/Wondertan/da/modules/da/v1"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	modulev1 "github.com/Wondertan/da/modules/da/v1"
+	staking "github.com/cosmos/cosmos-sdk/x/staking/keeper"
+	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 )
 
 // ConsensusVersion defines the current da module consensus version.
@@ -69,8 +70,9 @@ func init() {
 type ModuleInputs struct {
 	depinject.In
 
-	Cdc          codec.BinaryCodec
-	StoreService store.KVStoreService
+	Cdc           codec.BinaryCodec
+	StoreService  store.KVStoreService
+	StakingKeeper staking.Keeper
 }
 
 type ModuleOutputs struct {
@@ -84,6 +86,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 	keeper := NewKeeper(
 		in.Cdc,
 		in.StoreService,
+		in.StakingKeeper,
 	)
 	module := NewAppModule(keeper)
 

@@ -11,6 +11,98 @@ import (
 	sync "sync"
 )
 
+var _ protoreflect.List = (*_MsgAttestDataCommitment_1_list)(nil)
+
+type _MsgAttestDataCommitment_1_list struct {
+	list *[][]byte
+}
+
+func (x *_MsgAttestDataCommitment_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_MsgAttestDataCommitment_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfBytes((*x.list)[i])
+}
+
+func (x *_MsgAttestDataCommitment_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Bytes()
+	concreteValue := valueUnwrapped
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_MsgAttestDataCommitment_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Bytes()
+	concreteValue := valueUnwrapped
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_MsgAttestDataCommitment_1_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message MsgAttestDataCommitment at list field DataCommitments as it is not of Message kind"))
+}
+
+func (x *_MsgAttestDataCommitment_1_list) Truncate(n int) {
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_MsgAttestDataCommitment_1_list) NewElement() protoreflect.Value {
+	var v []byte
+	return protoreflect.ValueOfBytes(v)
+}
+
+func (x *_MsgAttestDataCommitment_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var _ protoreflect.List = (*_MsgAttestDataCommitment_2_list)(nil)
+
+type _MsgAttestDataCommitment_2_list struct {
+	list *[]int64
+}
+
+func (x *_MsgAttestDataCommitment_2_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_MsgAttestDataCommitment_2_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfInt64((*x.list)[i])
+}
+
+func (x *_MsgAttestDataCommitment_2_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Int()
+	concreteValue := valueUnwrapped
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_MsgAttestDataCommitment_2_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Int()
+	concreteValue := valueUnwrapped
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_MsgAttestDataCommitment_2_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message MsgAttestDataCommitment at list field Heights as it is not of Message kind"))
+}
+
+func (x *_MsgAttestDataCommitment_2_list) Truncate(n int) {
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_MsgAttestDataCommitment_2_list) NewElement() protoreflect.Value {
+	v := int64(0)
+	return protoreflect.ValueOfInt64(v)
+}
+
+func (x *_MsgAttestDataCommitment_2_list) IsValid() bool {
+	return x.list != nil
+}
+
 var _ protoreflect.List = (*_MsgAttestDataCommitment_3_list)(nil)
 
 type _MsgAttestDataCommitment_3_list struct {
@@ -63,17 +155,17 @@ func (x *_MsgAttestDataCommitment_3_list) IsValid() bool {
 }
 
 var (
-	md_MsgAttestDataCommitment                 protoreflect.MessageDescriptor
-	fd_MsgAttestDataCommitment_data_commitment protoreflect.FieldDescriptor
-	fd_MsgAttestDataCommitment_height          protoreflect.FieldDescriptor
-	fd_MsgAttestDataCommitment_attestations    protoreflect.FieldDescriptor
+	md_MsgAttestDataCommitment                  protoreflect.MessageDescriptor
+	fd_MsgAttestDataCommitment_data_commitments protoreflect.FieldDescriptor
+	fd_MsgAttestDataCommitment_heights          protoreflect.FieldDescriptor
+	fd_MsgAttestDataCommitment_attestations     protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_da_v1_tx_proto_init()
 	md_MsgAttestDataCommitment = File_da_v1_tx_proto.Messages().ByName("MsgAttestDataCommitment")
-	fd_MsgAttestDataCommitment_data_commitment = md_MsgAttestDataCommitment.Fields().ByName("data_commitment")
-	fd_MsgAttestDataCommitment_height = md_MsgAttestDataCommitment.Fields().ByName("height")
+	fd_MsgAttestDataCommitment_data_commitments = md_MsgAttestDataCommitment.Fields().ByName("data_commitments")
+	fd_MsgAttestDataCommitment_heights = md_MsgAttestDataCommitment.Fields().ByName("heights")
 	fd_MsgAttestDataCommitment_attestations = md_MsgAttestDataCommitment.Fields().ByName("attestations")
 }
 
@@ -142,15 +234,15 @@ func (x *fastReflection_MsgAttestDataCommitment) Interface() protoreflect.ProtoM
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_MsgAttestDataCommitment) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.DataCommitment) != 0 {
-		value := protoreflect.ValueOfBytes(x.DataCommitment)
-		if !f(fd_MsgAttestDataCommitment_data_commitment, value) {
+	if len(x.DataCommitments) != 0 {
+		value := protoreflect.ValueOfList(&_MsgAttestDataCommitment_1_list{list: &x.DataCommitments})
+		if !f(fd_MsgAttestDataCommitment_data_commitments, value) {
 			return
 		}
 	}
-	if x.Height != int64(0) {
-		value := protoreflect.ValueOfInt64(x.Height)
-		if !f(fd_MsgAttestDataCommitment_height, value) {
+	if len(x.Heights) != 0 {
+		value := protoreflect.ValueOfList(&_MsgAttestDataCommitment_2_list{list: &x.Heights})
+		if !f(fd_MsgAttestDataCommitment_heights, value) {
 			return
 		}
 	}
@@ -175,10 +267,10 @@ func (x *fastReflection_MsgAttestDataCommitment) Range(f func(protoreflect.Field
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_MsgAttestDataCommitment) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "da.v1.MsgAttestDataCommitment.data_commitment":
-		return len(x.DataCommitment) != 0
-	case "da.v1.MsgAttestDataCommitment.height":
-		return x.Height != int64(0)
+	case "da.v1.MsgAttestDataCommitment.data_commitments":
+		return len(x.DataCommitments) != 0
+	case "da.v1.MsgAttestDataCommitment.heights":
+		return len(x.Heights) != 0
 	case "da.v1.MsgAttestDataCommitment.attestations":
 		return len(x.Attestations) != 0
 	default:
@@ -197,10 +289,10 @@ func (x *fastReflection_MsgAttestDataCommitment) Has(fd protoreflect.FieldDescri
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgAttestDataCommitment) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "da.v1.MsgAttestDataCommitment.data_commitment":
-		x.DataCommitment = nil
-	case "da.v1.MsgAttestDataCommitment.height":
-		x.Height = int64(0)
+	case "da.v1.MsgAttestDataCommitment.data_commitments":
+		x.DataCommitments = nil
+	case "da.v1.MsgAttestDataCommitment.heights":
+		x.Heights = nil
 	case "da.v1.MsgAttestDataCommitment.attestations":
 		x.Attestations = nil
 	default:
@@ -219,12 +311,18 @@ func (x *fastReflection_MsgAttestDataCommitment) Clear(fd protoreflect.FieldDesc
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_MsgAttestDataCommitment) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "da.v1.MsgAttestDataCommitment.data_commitment":
-		value := x.DataCommitment
-		return protoreflect.ValueOfBytes(value)
-	case "da.v1.MsgAttestDataCommitment.height":
-		value := x.Height
-		return protoreflect.ValueOfInt64(value)
+	case "da.v1.MsgAttestDataCommitment.data_commitments":
+		if len(x.DataCommitments) == 0 {
+			return protoreflect.ValueOfList(&_MsgAttestDataCommitment_1_list{})
+		}
+		listValue := &_MsgAttestDataCommitment_1_list{list: &x.DataCommitments}
+		return protoreflect.ValueOfList(listValue)
+	case "da.v1.MsgAttestDataCommitment.heights":
+		if len(x.Heights) == 0 {
+			return protoreflect.ValueOfList(&_MsgAttestDataCommitment_2_list{})
+		}
+		listValue := &_MsgAttestDataCommitment_2_list{list: &x.Heights}
+		return protoreflect.ValueOfList(listValue)
 	case "da.v1.MsgAttestDataCommitment.attestations":
 		if len(x.Attestations) == 0 {
 			return protoreflect.ValueOfList(&_MsgAttestDataCommitment_3_list{})
@@ -251,10 +349,14 @@ func (x *fastReflection_MsgAttestDataCommitment) Get(descriptor protoreflect.Fie
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgAttestDataCommitment) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "da.v1.MsgAttestDataCommitment.data_commitment":
-		x.DataCommitment = value.Bytes()
-	case "da.v1.MsgAttestDataCommitment.height":
-		x.Height = value.Int()
+	case "da.v1.MsgAttestDataCommitment.data_commitments":
+		lv := value.List()
+		clv := lv.(*_MsgAttestDataCommitment_1_list)
+		x.DataCommitments = *clv.list
+	case "da.v1.MsgAttestDataCommitment.heights":
+		lv := value.List()
+		clv := lv.(*_MsgAttestDataCommitment_2_list)
+		x.Heights = *clv.list
 	case "da.v1.MsgAttestDataCommitment.attestations":
 		lv := value.List()
 		clv := lv.(*_MsgAttestDataCommitment_3_list)
@@ -279,16 +381,24 @@ func (x *fastReflection_MsgAttestDataCommitment) Set(fd protoreflect.FieldDescri
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgAttestDataCommitment) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "da.v1.MsgAttestDataCommitment.data_commitments":
+		if x.DataCommitments == nil {
+			x.DataCommitments = [][]byte{}
+		}
+		value := &_MsgAttestDataCommitment_1_list{list: &x.DataCommitments}
+		return protoreflect.ValueOfList(value)
+	case "da.v1.MsgAttestDataCommitment.heights":
+		if x.Heights == nil {
+			x.Heights = []int64{}
+		}
+		value := &_MsgAttestDataCommitment_2_list{list: &x.Heights}
+		return protoreflect.ValueOfList(value)
 	case "da.v1.MsgAttestDataCommitment.attestations":
 		if x.Attestations == nil {
 			x.Attestations = []*Attestation{}
 		}
 		value := &_MsgAttestDataCommitment_3_list{list: &x.Attestations}
 		return protoreflect.ValueOfList(value)
-	case "da.v1.MsgAttestDataCommitment.data_commitment":
-		panic(fmt.Errorf("field data_commitment of message da.v1.MsgAttestDataCommitment is not mutable"))
-	case "da.v1.MsgAttestDataCommitment.height":
-		panic(fmt.Errorf("field height of message da.v1.MsgAttestDataCommitment is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.MsgAttestDataCommitment"))
@@ -302,10 +412,12 @@ func (x *fastReflection_MsgAttestDataCommitment) Mutable(fd protoreflect.FieldDe
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_MsgAttestDataCommitment) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "da.v1.MsgAttestDataCommitment.data_commitment":
-		return protoreflect.ValueOfBytes(nil)
-	case "da.v1.MsgAttestDataCommitment.height":
-		return protoreflect.ValueOfInt64(int64(0))
+	case "da.v1.MsgAttestDataCommitment.data_commitments":
+		list := [][]byte{}
+		return protoreflect.ValueOfList(&_MsgAttestDataCommitment_1_list{list: &list})
+	case "da.v1.MsgAttestDataCommitment.heights":
+		list := []int64{}
+		return protoreflect.ValueOfList(&_MsgAttestDataCommitment_2_list{list: &list})
 	case "da.v1.MsgAttestDataCommitment.attestations":
 		list := []*Attestation{}
 		return protoreflect.ValueOfList(&_MsgAttestDataCommitment_3_list{list: &list})
@@ -378,12 +490,18 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 		var n int
 		var l int
 		_ = l
-		l = len(x.DataCommitment)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if len(x.DataCommitments) > 0 {
+			for _, b := range x.DataCommitments {
+				l = len(b)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
 		}
-		if x.Height != 0 {
-			n += 1 + runtime.Sov(uint64(x.Height))
+		if len(x.Heights) > 0 {
+			l = 0
+			for _, e := range x.Heights {
+				l += runtime.Sov(uint64(e))
+			}
+			n += 1 + runtime.Sov(uint64(l)) + l
 		}
 		if len(x.Attestations) > 0 {
 			for _, e := range x.Attestations {
@@ -436,17 +554,35 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 				dAtA[i] = 0x1a
 			}
 		}
-		if x.Height != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.Height))
+		if len(x.Heights) > 0 {
+			var pksize2 int
+			for _, num := range x.Heights {
+				pksize2 += runtime.Sov(uint64(num))
+			}
+			i -= pksize2
+			j1 := i
+			for _, num1 := range x.Heights {
+				num := uint64(num1)
+				for num >= 1<<7 {
+					dAtA[j1] = uint8(uint64(num)&0x7f | 0x80)
+					num >>= 7
+					j1++
+				}
+				dAtA[j1] = uint8(num)
+				j1++
+			}
+			i = runtime.EncodeVarint(dAtA, i, uint64(pksize2))
 			i--
-			dAtA[i] = 0x10
+			dAtA[i] = 0x12
 		}
-		if len(x.DataCommitment) > 0 {
-			i -= len(x.DataCommitment)
-			copy(dAtA[i:], x.DataCommitment)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DataCommitment)))
-			i--
-			dAtA[i] = 0xa
+		if len(x.DataCommitments) > 0 {
+			for iNdEx := len(x.DataCommitments) - 1; iNdEx >= 0; iNdEx-- {
+				i -= len(x.DataCommitments[iNdEx])
+				copy(dAtA[i:], x.DataCommitments[iNdEx])
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DataCommitments[iNdEx])))
+				i--
+				dAtA[i] = 0xa
+			}
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -499,7 +635,7 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DataCommitment", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DataCommitments", wireType)
 				}
 				var byteLen int
 				for shift := uint(0); ; shift += 7 {
@@ -526,29 +662,84 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.DataCommitment = append(x.DataCommitment[:0], dAtA[iNdEx:postIndex]...)
-				if x.DataCommitment == nil {
-					x.DataCommitment = []byte{}
-				}
+				x.DataCommitments = append(x.DataCommitments, make([]byte, postIndex-iNdEx))
+				copy(x.DataCommitments[len(x.DataCommitments)-1], dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Height", wireType)
-				}
-				x.Height = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				if wireType == 0 {
+					var v int64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+						}
+						if iNdEx >= l {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						v |= int64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
 					}
-					if iNdEx >= l {
+					x.Heights = append(x.Heights, v)
+				} else if wireType == 2 {
+					var packedLen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+						}
+						if iNdEx >= l {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						packedLen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if packedLen < 0 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+					}
+					postIndex := iNdEx + packedLen
+					if postIndex < 0 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+					}
+					if postIndex > l {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.Height |= int64(b&0x7F) << shift
-					if b < 0x80 {
-						break
+					var elementCount int
+					var count int
+					for _, integer := range dAtA[iNdEx:postIndex] {
+						if integer < 128 {
+							count++
+						}
 					}
+					elementCount = count
+					if elementCount != 0 && len(x.Heights) == 0 {
+						x.Heights = make([]int64, 0, elementCount)
+					}
+					for iNdEx < postIndex {
+						var v int64
+						for shift := uint(0); ; shift += 7 {
+							if shift >= 64 {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+							}
+							if iNdEx >= l {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+							}
+							b := dAtA[iNdEx]
+							iNdEx++
+							v |= int64(b&0x7F) << shift
+							if b < 0x80 {
+								break
+							}
+						}
+						x.Heights = append(x.Heights, v)
+					}
+				} else {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Heights", wireType)
 				}
 			case 3:
 				if wireType != 2 {
@@ -619,9 +810,56 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 	}
 }
 
+var _ protoreflect.List = (*_Attestation_2_list)(nil)
+
+type _Attestation_2_list struct {
+	list *[]int64
+}
+
+func (x *_Attestation_2_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_Attestation_2_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfInt64((*x.list)[i])
+}
+
+func (x *_Attestation_2_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Int()
+	concreteValue := valueUnwrapped
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_Attestation_2_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Int()
+	concreteValue := valueUnwrapped
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_Attestation_2_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message Attestation at list field Heights as it is not of Message kind"))
+}
+
+func (x *_Attestation_2_list) Truncate(n int) {
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_Attestation_2_list) NewElement() protoreflect.Value {
+	v := int64(0)
+	return protoreflect.ValueOfInt64(v)
+}
+
+func (x *_Attestation_2_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
 	md_Attestation                   protoreflect.MessageDescriptor
 	fd_Attestation_validator_address protoreflect.FieldDescriptor
+	fd_Attestation_heights           protoreflect.FieldDescriptor
 	fd_Attestation_signature         protoreflect.FieldDescriptor
 )
 
@@ -629,6 +867,7 @@ func init() {
 	file_da_v1_tx_proto_init()
 	md_Attestation = File_da_v1_tx_proto.Messages().ByName("Attestation")
 	fd_Attestation_validator_address = md_Attestation.Fields().ByName("validator_address")
+	fd_Attestation_heights = md_Attestation.Fields().ByName("heights")
 	fd_Attestation_signature = md_Attestation.Fields().ByName("signature")
 }
 
@@ -703,6 +942,12 @@ func (x *fastReflection_Attestation) Range(f func(protoreflect.FieldDescriptor, 
 			return
 		}
 	}
+	if len(x.Heights) != 0 {
+		value := protoreflect.ValueOfList(&_Attestation_2_list{list: &x.Heights})
+		if !f(fd_Attestation_heights, value) {
+			return
+		}
+	}
 	if len(x.Signature) != 0 {
 		value := protoreflect.ValueOfBytes(x.Signature)
 		if !f(fd_Attestation_signature, value) {
@@ -726,6 +971,8 @@ func (x *fastReflection_Attestation) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "da.v1.Attestation.validator_address":
 		return x.ValidatorAddress != ""
+	case "da.v1.Attestation.heights":
+		return len(x.Heights) != 0
 	case "da.v1.Attestation.signature":
 		return len(x.Signature) != 0
 	default:
@@ -746,6 +993,8 @@ func (x *fastReflection_Attestation) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "da.v1.Attestation.validator_address":
 		x.ValidatorAddress = ""
+	case "da.v1.Attestation.heights":
+		x.Heights = nil
 	case "da.v1.Attestation.signature":
 		x.Signature = nil
 	default:
@@ -767,6 +1016,12 @@ func (x *fastReflection_Attestation) Get(descriptor protoreflect.FieldDescriptor
 	case "da.v1.Attestation.validator_address":
 		value := x.ValidatorAddress
 		return protoreflect.ValueOfString(value)
+	case "da.v1.Attestation.heights":
+		if len(x.Heights) == 0 {
+			return protoreflect.ValueOfList(&_Attestation_2_list{})
+		}
+		listValue := &_Attestation_2_list{list: &x.Heights}
+		return protoreflect.ValueOfList(listValue)
 	case "da.v1.Attestation.signature":
 		value := x.Signature
 		return protoreflect.ValueOfBytes(value)
@@ -792,6 +1047,10 @@ func (x *fastReflection_Attestation) Set(fd protoreflect.FieldDescriptor, value 
 	switch fd.FullName() {
 	case "da.v1.Attestation.validator_address":
 		x.ValidatorAddress = value.Interface().(string)
+	case "da.v1.Attestation.heights":
+		lv := value.List()
+		clv := lv.(*_Attestation_2_list)
+		x.Heights = *clv.list
 	case "da.v1.Attestation.signature":
 		x.Signature = value.Bytes()
 	default:
@@ -814,6 +1073,12 @@ func (x *fastReflection_Attestation) Set(fd protoreflect.FieldDescriptor, value 
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Attestation) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "da.v1.Attestation.heights":
+		if x.Heights == nil {
+			x.Heights = []int64{}
+		}
+		value := &_Attestation_2_list{list: &x.Heights}
+		return protoreflect.ValueOfList(value)
 	case "da.v1.Attestation.validator_address":
 		panic(fmt.Errorf("field validator_address of message da.v1.Attestation is not mutable"))
 	case "da.v1.Attestation.signature":
@@ -833,6 +1098,9 @@ func (x *fastReflection_Attestation) NewField(fd protoreflect.FieldDescriptor) p
 	switch fd.FullName() {
 	case "da.v1.Attestation.validator_address":
 		return protoreflect.ValueOfString("")
+	case "da.v1.Attestation.heights":
+		list := []int64{}
+		return protoreflect.ValueOfList(&_Attestation_2_list{list: &list})
 	case "da.v1.Attestation.signature":
 		return protoreflect.ValueOfBytes(nil)
 	default:
@@ -908,6 +1176,13 @@ func (x *fastReflection_Attestation) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if len(x.Heights) > 0 {
+			l = 0
+			for _, e := range x.Heights {
+				l += runtime.Sov(uint64(e))
+			}
+			n += 1 + runtime.Sov(uint64(l)) + l
+		}
 		l = len(x.Signature)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
@@ -945,6 +1220,27 @@ func (x *fastReflection_Attestation) ProtoMethods() *protoiface.Methods {
 			i -= len(x.Signature)
 			copy(dAtA[i:], x.Signature)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Signature)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if len(x.Heights) > 0 {
+			var pksize2 int
+			for _, num := range x.Heights {
+				pksize2 += runtime.Sov(uint64(num))
+			}
+			i -= pksize2
+			j1 := i
+			for _, num1 := range x.Heights {
+				num := uint64(num1)
+				for num >= 1<<7 {
+					dAtA[j1] = uint8(uint64(num)&0x7f | 0x80)
+					num >>= 7
+					j1++
+				}
+				dAtA[j1] = uint8(num)
+				j1++
+			}
+			i = runtime.EncodeVarint(dAtA, i, uint64(pksize2))
 			i--
 			dAtA[i] = 0x12
 		}
@@ -1037,6 +1333,82 @@ func (x *fastReflection_Attestation) ProtoMethods() *protoiface.Methods {
 				x.ValidatorAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
+				if wireType == 0 {
+					var v int64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+						}
+						if iNdEx >= l {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						v |= int64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					x.Heights = append(x.Heights, v)
+				} else if wireType == 2 {
+					var packedLen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+						}
+						if iNdEx >= l {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						packedLen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if packedLen < 0 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+					}
+					postIndex := iNdEx + packedLen
+					if postIndex < 0 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+					}
+					if postIndex > l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					var elementCount int
+					var count int
+					for _, integer := range dAtA[iNdEx:postIndex] {
+						if integer < 128 {
+							count++
+						}
+					}
+					elementCount = count
+					if elementCount != 0 && len(x.Heights) == 0 {
+						x.Heights = make([]int64, 0, elementCount)
+					}
+					for iNdEx < postIndex {
+						var v int64
+						for shift := uint(0); ; shift += 7 {
+							if shift >= 64 {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+							}
+							if iNdEx >= l {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+							}
+							b := dAtA[iNdEx]
+							iNdEx++
+							v |= int64(b&0x7F) << shift
+							if b < 0x80 {
+								break
+							}
+						}
+						x.Heights = append(x.Heights, v)
+					}
+				} else {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Heights", wireType)
+				}
+			case 3:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
 				}
@@ -1479,9 +1851,9 @@ type MsgAttestDataCommitment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	DataCommitment []byte         `protobuf:"bytes,1,opt,name=data_commitment,json=dataCommitment,proto3" json:"data_commitment,omitempty"`
-	Height         int64          `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
-	Attestations   []*Attestation `protobuf:"bytes,3,rep,name=attestations,proto3" json:"attestations,omitempty"`
+	DataCommitments [][]byte       `protobuf:"bytes,1,rep,name=data_commitments,json=dataCommitments,proto3" json:"data_commitments,omitempty"`
+	Heights         []int64        `protobuf:"varint,2,rep,packed,name=heights,proto3" json:"heights,omitempty"`
+	Attestations    []*Attestation `protobuf:"bytes,3,rep,name=attestations,proto3" json:"attestations,omitempty"`
 }
 
 func (x *MsgAttestDataCommitment) Reset() {
@@ -1504,18 +1876,18 @@ func (*MsgAttestDataCommitment) Descriptor() ([]byte, []int) {
 	return file_da_v1_tx_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *MsgAttestDataCommitment) GetDataCommitment() []byte {
+func (x *MsgAttestDataCommitment) GetDataCommitments() [][]byte {
 	if x != nil {
-		return x.DataCommitment
+		return x.DataCommitments
 	}
 	return nil
 }
 
-func (x *MsgAttestDataCommitment) GetHeight() int64 {
+func (x *MsgAttestDataCommitment) GetHeights() []int64 {
 	if x != nil {
-		return x.Height
+		return x.Heights
 	}
-	return 0
+	return nil
 }
 
 func (x *MsgAttestDataCommitment) GetAttestations() []*Attestation {
@@ -1530,8 +1902,9 @@ type Attestation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ValidatorAddress string `protobuf:"bytes,1,opt,name=validator_address,json=validatorAddress,proto3" json:"validator_address,omitempty"`
-	Signature        []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
+	ValidatorAddress string  `protobuf:"bytes,1,opt,name=validator_address,json=validatorAddress,proto3" json:"validator_address,omitempty"`
+	Heights          []int64 `protobuf:"varint,2,rep,packed,name=heights,proto3" json:"heights,omitempty"`
+	Signature        []byte  `protobuf:"bytes,3,opt,name=signature,proto3" json:"signature,omitempty"`
 }
 
 func (x *Attestation) Reset() {
@@ -1559,6 +1932,13 @@ func (x *Attestation) GetValidatorAddress() string {
 		return x.ValidatorAddress
 	}
 	return ""
+}
+
+func (x *Attestation) GetHeights() []int64 {
+	if x != nil {
+		return x.Heights
+	}
+	return nil
 }
 
 func (x *Attestation) GetSignature() []byte {
@@ -1598,33 +1978,35 @@ var File_da_v1_tx_proto protoreflect.FileDescriptor
 
 var file_da_v1_tx_proto_rawDesc = []byte{
 	0x0a, 0x0e, 0x64, 0x61, 0x2f, 0x76, 0x31, 0x2f, 0x74, 0x78, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x05, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x22, 0x92, 0x01, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x41,
+	0x12, 0x05, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x22, 0x96, 0x01, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x41,
 	0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d,
-	0x65, 0x6e, 0x74, 0x12, 0x27, 0x0a, 0x0f, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x63, 0x6f, 0x6d, 0x6d,
-	0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0e, 0x64, 0x61,
-	0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x16, 0x0a, 0x06,
-	0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x68, 0x65,
-	0x69, 0x67, 0x68, 0x74, 0x12, 0x36, 0x0a, 0x0c, 0x61, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x64, 0x61, 0x2e,
-	0x76, 0x31, 0x2e, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0c,
-	0x61, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x58, 0x0a, 0x0b,
-	0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2b, 0x0a, 0x11, 0x76,
-	0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x6f, 0x72, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x6f,
-	0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e,
-	0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x09, 0x73, 0x69, 0x67,
-	0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x22, 0x21, 0x0a, 0x1f, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74,
-	0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e,
-	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x5f, 0x0a, 0x03, 0x4d, 0x73, 0x67,
-	0x12, 0x58, 0x0a, 0x0e, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x52, 0x6f,
-	0x6f, 0x74, 0x12, 0x1e, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x41, 0x74,
-	0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65,
-	0x6e, 0x74, 0x1a, 0x26, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x41, 0x74,
-	0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65,
-	0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x27, 0x5a, 0x25, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x57, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x74,
-	0x61, 0x6e, 0x2f, 0x64, 0x61, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x2f, 0x64, 0x61,
-	0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x6e, 0x74, 0x12, 0x29, 0x0a, 0x10, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0c, 0x52, 0x0f, 0x64,
+	0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x18,
+	0x0a, 0x07, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x03, 0x52,
+	0x07, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x73, 0x12, 0x36, 0x0a, 0x0c, 0x61, 0x74, 0x74, 0x65,
+	0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12,
+	0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x0c, 0x61, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x22, 0x72, 0x0a, 0x0b, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
+	0x2b, 0x0a, 0x11, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x6f, 0x72, 0x5f, 0x61, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x76, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x18, 0x0a, 0x07,
+	0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x03, 0x52, 0x07, 0x68,
+	0x65, 0x69, 0x67, 0x68, 0x74, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74,
+	0x75, 0x72, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61,
+	0x74, 0x75, 0x72, 0x65, 0x22, 0x21, 0x0a, 0x1f, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74, 0x65, 0x73,
+	0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x5f, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x58,
+	0x0a, 0x0e, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x52, 0x6f, 0x6f, 0x74,
+	0x12, 0x1e, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74, 0x65,
+	0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74,
+	0x1a, 0x26, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74, 0x65,
+	0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x27, 0x5a, 0x25, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x57, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x74, 0x61, 0x6e,
+	0x2f, 0x64, 0x61, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x2f, 0x64, 0x61, 0x2f, 0x76,
+	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (

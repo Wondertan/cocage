@@ -8,14 +8,15 @@ service Msg {
 }
 
 message MsgAttestDataCommitment {
-    bytes data_commitment = 1;
-    int64 height = 2;
+    repeated bytes data_commitments = 1;
+    repeated int64 heights = 2;
     repeated Attestation attestations = 3;
 }
 
 message Attestation {
     string validator_address = 1;
-    bytes signature = 2;
+    repeated int64 heights = 2;
+    bytes signature = 3;
 }
 
 message MsgAttestDataCommitmentResponse {}
