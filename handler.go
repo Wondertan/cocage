@@ -63,7 +63,6 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
 		resp := &abci.ResponsePrepareProposal{}
 
-
 		var maxTuples int
 		votes := map[string]*v1.VoteExtensionData{} // address -> vote extension
 		attests := make([]*v1.Attestation, len(req.LocalLastCommit.Votes))
@@ -78,7 +77,7 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 			votes[string(vt.Validator.Address)] = data
 			attests[i] = &v1.Attestation{
 				ValidatorAddress: string(vt.Validator.Address), // TODO change to bytes
-				Size: uint32(len(data.DataTuples)),
+				Size:             uint32(len(data.DataTuples)),
 				Signature:        vt.ExtensionSignature,
 			}
 			if len(data.DataTuples) > maxTuples {
@@ -105,7 +104,7 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 			}
 
 			for addr, vt := range votes {
-				if  vt.DataTuples[i].Height == height && bytes.Equal(vt.DataTuples[i].DataRoot, roots[height]) {
+				if vt.DataTuples[i].Height == height && bytes.Equal(vt.DataTuples[i].DataRoot, roots[height]) {
 					// only add validator address if it signed over the same height and dataroot
 					daHeights[height] = append(daHeights[height], []byte(addr))
 				}
@@ -128,8 +127,8 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 
 		_ = &v1.MsgAttestDataCommitment{
 			DataCommitments: commitments,
-			Attestations: attests,
-			EndHeight:    endHeight,
+			Attestations:    attests,
+			EndHeight:       endHeight,
 		}
 
 		// TODO: Pack msg into the response

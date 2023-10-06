@@ -7,12 +7,7 @@ import (
 	"crypto/sha256"
 )
 
-const (
-	HashSize = sha256.Size
-
-	// There can only be 10 data root attestations per block
-	MaxAttestations = 10
-)
+const HashSize = sha256.Size
 
 func (msg MsgAttestDataCommitment) ValidateBasic() error {
 	if len(msg.DataCommitments) == 0 {
@@ -24,5 +19,6 @@ func (msg MsgAttestDataCommitment) ValidateBasic() error {
 			return fmt.Errorf("data commitment at index %d has invalid length. Expected: %d, got: %d", idx, len(dataCommitment), HashSize)
 		}
 	}
+
 	return nil
 }
