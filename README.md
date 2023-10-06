@@ -1,6 +1,6 @@
 # CoCage
 
-![logo.jpg](logo.jpg)
+![](logo.jpg)
 
 CoCage is Cosmos SDK Data Availability/Data Publication Module. It is a module that enables on-chain verification of 
 published data by an external network such as Celestia. Validators continually run a side-car process(light client) 
