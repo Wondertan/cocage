@@ -1,6 +1,7 @@
 package da
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"time"
@@ -88,22 +89,30 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 		// TODO: We have to cross check validity of signed datatuples
 		//  If height is adequate and matches the dataroot
 
-		daHeights := make(map[uint64][][]byte, maxTuples)
+		var minHeight uint64
+		daHeights := make(map[uint64][][]byte, maxTuples) // height -> list of validator addresses that signed over the height
+		roots := make(map[uint64][]byte, maxTuples)       // height -> dataroot
+
 		for i := 0; i < maxTuples; i++ {
 			var height uint64
 			for _, vt := range votes {
 				// get the first vote that has the ith height
 				if len(vt.DataTuples) <= i {
 					height = vt.DataTuples[i].Height
+					roots[height] = vt.DataTuples[i].DataRoot
 					break
 				}
 			}
 
 			for addr, vt := range votes {
-				if  vt.DataTuples[i].Height == height {
-					// only add validator address if it signed over the height
+				if  vt.DataTuples[i].Height == height && bytes.Equal(vt.DataTuples[i].DataRoot, roots[height]) {
+					// only add validator address if it signed over the same height and dataroot
 					daHeights[height] = append(daHeights[height], []byte(addr))
 				}
+			}
+
+			if minHeight == 0 || height < minHeight {
+				minHeight = height
 			}
 		}
 
@@ -112,18 +121,25 @@ func PrepareProposalHandler(da da.Keeper) sdk.PrepareProposalHandler {
 			return nil, err
 		}
 
+		commitments := make([][]byte, endHeight-minHeight+1)
+		for i := minHeight; i <= endHeight; i++ {
+			commitments[i-minHeight] = roots[i]
+		}
 
-		msg := &v1.MsgAttestDataCommitment{
+		_ = &v1.MsgAttestDataCommitment{
+			DataCommitments: commitments,
 			Attestations: attests,
 			EndHeight:    endHeight,
 		}
 
-
+		// TODO: Pack msg into the response
 
 		// create the MsgAttestDataCommitment from the req.LocalLastCommit.Votes (which contain the vote extensions)
 		// insert the transaction as the first transaction in the response
 		// check that the max size is not reached
-		return &abci.ResponsePrepareProposal{Txs: req.Txs}, nil
+		return &abci.ResponsePrepareProposal{
+			Txs: req.Txs,
+		}, nil
 	}
 }
 
