@@ -57,70 +57,15 @@ func (x *_MsgAttestDataCommitment_1_list) IsValid() bool {
 	return x.list != nil
 }
 
-var _ protoreflect.List = (*_MsgAttestDataCommitment_3_list)(nil)
-
-type _MsgAttestDataCommitment_3_list struct {
-	list *[]*Attestation
-}
-
-func (x *_MsgAttestDataCommitment_3_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_MsgAttestDataCommitment_3_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_MsgAttestDataCommitment_3_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Attestation)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_MsgAttestDataCommitment_3_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Attestation)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_MsgAttestDataCommitment_3_list) AppendMutable() protoreflect.Value {
-	v := new(Attestation)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_MsgAttestDataCommitment_3_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_MsgAttestDataCommitment_3_list) NewElement() protoreflect.Value {
-	v := new(Attestation)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_MsgAttestDataCommitment_3_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
 	md_MsgAttestDataCommitment                  protoreflect.MessageDescriptor
 	fd_MsgAttestDataCommitment_data_commitments protoreflect.FieldDescriptor
-	fd_MsgAttestDataCommitment_end_height       protoreflect.FieldDescriptor
-	fd_MsgAttestDataCommitment_attestations     protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_da_v1_tx_proto_init()
 	md_MsgAttestDataCommitment = File_da_v1_tx_proto.Messages().ByName("MsgAttestDataCommitment")
 	fd_MsgAttestDataCommitment_data_commitments = md_MsgAttestDataCommitment.Fields().ByName("data_commitments")
-	fd_MsgAttestDataCommitment_end_height = md_MsgAttestDataCommitment.Fields().ByName("end_height")
-	fd_MsgAttestDataCommitment_attestations = md_MsgAttestDataCommitment.Fields().ByName("attestations")
 }
 
 var _ protoreflect.Message = (*fastReflection_MsgAttestDataCommitment)(nil)
@@ -194,18 +139,6 @@ func (x *fastReflection_MsgAttestDataCommitment) Range(f func(protoreflect.Field
 			return
 		}
 	}
-	if x.EndHeight != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.EndHeight)
-		if !f(fd_MsgAttestDataCommitment_end_height, value) {
-			return
-		}
-	}
-	if len(x.Attestations) != 0 {
-		value := protoreflect.ValueOfList(&_MsgAttestDataCommitment_3_list{list: &x.Attestations})
-		if !f(fd_MsgAttestDataCommitment_attestations, value) {
-			return
-		}
-	}
 }
 
 // Has reports whether a field is populated.
@@ -223,10 +156,6 @@ func (x *fastReflection_MsgAttestDataCommitment) Has(fd protoreflect.FieldDescri
 	switch fd.FullName() {
 	case "da.v1.MsgAttestDataCommitment.data_commitments":
 		return len(x.DataCommitments) != 0
-	case "da.v1.MsgAttestDataCommitment.end_height":
-		return x.EndHeight != uint64(0)
-	case "da.v1.MsgAttestDataCommitment.attestations":
-		return len(x.Attestations) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.MsgAttestDataCommitment"))
@@ -245,10 +174,6 @@ func (x *fastReflection_MsgAttestDataCommitment) Clear(fd protoreflect.FieldDesc
 	switch fd.FullName() {
 	case "da.v1.MsgAttestDataCommitment.data_commitments":
 		x.DataCommitments = nil
-	case "da.v1.MsgAttestDataCommitment.end_height":
-		x.EndHeight = uint64(0)
-	case "da.v1.MsgAttestDataCommitment.attestations":
-		x.Attestations = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.MsgAttestDataCommitment"))
@@ -270,15 +195,6 @@ func (x *fastReflection_MsgAttestDataCommitment) Get(descriptor protoreflect.Fie
 			return protoreflect.ValueOfList(&_MsgAttestDataCommitment_1_list{})
 		}
 		listValue := &_MsgAttestDataCommitment_1_list{list: &x.DataCommitments}
-		return protoreflect.ValueOfList(listValue)
-	case "da.v1.MsgAttestDataCommitment.end_height":
-		value := x.EndHeight
-		return protoreflect.ValueOfUint64(value)
-	case "da.v1.MsgAttestDataCommitment.attestations":
-		if len(x.Attestations) == 0 {
-			return protoreflect.ValueOfList(&_MsgAttestDataCommitment_3_list{})
-		}
-		listValue := &_MsgAttestDataCommitment_3_list{list: &x.Attestations}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
@@ -304,12 +220,6 @@ func (x *fastReflection_MsgAttestDataCommitment) Set(fd protoreflect.FieldDescri
 		lv := value.List()
 		clv := lv.(*_MsgAttestDataCommitment_1_list)
 		x.DataCommitments = *clv.list
-	case "da.v1.MsgAttestDataCommitment.end_height":
-		x.EndHeight = value.Uint()
-	case "da.v1.MsgAttestDataCommitment.attestations":
-		lv := value.List()
-		clv := lv.(*_MsgAttestDataCommitment_3_list)
-		x.Attestations = *clv.list
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.MsgAttestDataCommitment"))
@@ -336,14 +246,6 @@ func (x *fastReflection_MsgAttestDataCommitment) Mutable(fd protoreflect.FieldDe
 		}
 		value := &_MsgAttestDataCommitment_1_list{list: &x.DataCommitments}
 		return protoreflect.ValueOfList(value)
-	case "da.v1.MsgAttestDataCommitment.attestations":
-		if x.Attestations == nil {
-			x.Attestations = []*Attestation{}
-		}
-		value := &_MsgAttestDataCommitment_3_list{list: &x.Attestations}
-		return protoreflect.ValueOfList(value)
-	case "da.v1.MsgAttestDataCommitment.end_height":
-		panic(fmt.Errorf("field end_height of message da.v1.MsgAttestDataCommitment is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.MsgAttestDataCommitment"))
@@ -360,11 +262,6 @@ func (x *fastReflection_MsgAttestDataCommitment) NewField(fd protoreflect.FieldD
 	case "da.v1.MsgAttestDataCommitment.data_commitments":
 		list := [][]byte{}
 		return protoreflect.ValueOfList(&_MsgAttestDataCommitment_1_list{list: &list})
-	case "da.v1.MsgAttestDataCommitment.end_height":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "da.v1.MsgAttestDataCommitment.attestations":
-		list := []*Attestation{}
-		return protoreflect.ValueOfList(&_MsgAttestDataCommitment_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: da.v1.MsgAttestDataCommitment"))
@@ -440,15 +337,6 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
-		if x.EndHeight != 0 {
-			n += 1 + runtime.Sov(uint64(x.EndHeight))
-		}
-		if len(x.Attestations) > 0 {
-			for _, e := range x.Attestations {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -477,27 +365,6 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
-		}
-		if len(x.Attestations) > 0 {
-			for iNdEx := len(x.Attestations) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Attestations[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0x1a
-			}
-		}
-		if x.EndHeight != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.EndHeight))
-			i--
-			dAtA[i] = 0x10
 		}
 		if len(x.DataCommitments) > 0 {
 			for iNdEx := len(x.DataCommitments) - 1; iNdEx >= 0; iNdEx-- {
@@ -588,59 +455,6 @@ func (x *fastReflection_MsgAttestDataCommitment) ProtoMethods() *protoiface.Meth
 				}
 				x.DataCommitments = append(x.DataCommitments, make([]byte, postIndex-iNdEx))
 				copy(x.DataCommitments[len(x.DataCommitments)-1], dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 2:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field EndHeight", wireType)
-				}
-				x.EndHeight = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.EndHeight |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 3:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Attestations", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Attestations = append(x.Attestations, &Attestation{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Attestations[len(x.Attestations)-1]); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -1051,9 +865,7 @@ type MsgAttestDataCommitment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	DataCommitments [][]byte       `protobuf:"bytes,1,rep,name=data_commitments,json=dataCommitments,proto3" json:"data_commitments,omitempty"`
-	EndHeight       uint64         `protobuf:"varint,2,opt,name=end_height,json=endHeight,proto3" json:"end_height,omitempty"`
-	Attestations    []*Attestation `protobuf:"bytes,3,rep,name=attestations,proto3" json:"attestations,omitempty"`
+	DataCommitments [][]byte `protobuf:"bytes,1,rep,name=data_commitments,json=dataCommitments,proto3" json:"data_commitments,omitempty"`
 }
 
 func (x *MsgAttestDataCommitment) Reset() {
@@ -1079,20 +891,6 @@ func (*MsgAttestDataCommitment) Descriptor() ([]byte, []int) {
 func (x *MsgAttestDataCommitment) GetDataCommitments() [][]byte {
 	if x != nil {
 		return x.DataCommitments
-	}
-	return nil
-}
-
-func (x *MsgAttestDataCommitment) GetEndHeight() uint64 {
-	if x != nil {
-		return x.EndHeight
-	}
-	return 0
-}
-
-func (x *MsgAttestDataCommitment) GetAttestations() []*Attestation {
-	if x != nil {
-		return x.Attestations
 	}
 	return nil
 }
@@ -1127,29 +925,23 @@ var File_da_v1_tx_proto protoreflect.FileDescriptor
 
 var file_da_v1_tx_proto_rawDesc = []byte{
 	0x0a, 0x0e, 0x64, 0x61, 0x2f, 0x76, 0x31, 0x2f, 0x74, 0x78, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x05, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x1a, 0x11, 0x64, 0x61, 0x2f, 0x76, 0x31, 0x2f, 0x74,
-	0x79, 0x70, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x9b, 0x01, 0x0a, 0x17, 0x4d,
-	0x73, 0x67, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d,
-	0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x29, 0x0a, 0x10, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x63,
-	0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0c,
-	0x52, 0x0f, 0x64, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74,
-	0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x65, 0x6e, 0x64, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x65, 0x6e, 0x64, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74,
-	0x12, 0x36, 0x0a, 0x0c, 0x61, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
-	0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x41,
-	0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0c, 0x61, 0x74, 0x74, 0x65,
-	0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x21, 0x0a, 0x1f, 0x4d, 0x73, 0x67, 0x41,
-	0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d,
-	0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x5f, 0x0a, 0x03, 0x4d,
-	0x73, 0x67, 0x12, 0x58, 0x0a, 0x0e, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61,
-	0x52, 0x6f, 0x6f, 0x74, 0x12, 0x1e, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67,
-	0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74,
-	0x6d, 0x65, 0x6e, 0x74, 0x1a, 0x26, 0x2e, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x73, 0x67,
-	0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74,
-	0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x27, 0x5a, 0x25,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x57, 0x6f, 0x6e, 0x64, 0x65,
-	0x72, 0x74, 0x61, 0x6e, 0x2f, 0x64, 0x61, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x73, 0x2f,
-	0x64, 0x61, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x05, 0x64, 0x61, 0x2e, 0x76, 0x31, 0x22, 0x44, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x41, 0x74,
+	0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65,
+	0x6e, 0x74, 0x12, 0x29, 0x0a, 0x10, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x69,
+	0x74, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0c, 0x52, 0x0f, 0x64, 0x61,
+	0x74, 0x61, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x22, 0x21, 0x0a,
+	0x1f, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43, 0x6f,
+	0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x32, 0x5f, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x58, 0x0a, 0x0e, 0x41, 0x74, 0x74, 0x65, 0x73,
+	0x74, 0x44, 0x61, 0x74, 0x61, 0x52, 0x6f, 0x6f, 0x74, 0x12, 0x1e, 0x2e, 0x64, 0x61, 0x2e, 0x76,
+	0x31, 0x2e, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43,
+	0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x1a, 0x26, 0x2e, 0x64, 0x61, 0x2e, 0x76,
+	0x31, 0x2e, 0x4d, 0x73, 0x67, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x43,
+	0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x42, 0x27, 0x5a, 0x25, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x57, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x74, 0x61, 0x6e, 0x2f, 0x64, 0x61, 0x2f, 0x6d, 0x6f, 0x64,
+	0x75, 0x6c, 0x65, 0x73, 0x2f, 0x64, 0x61, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -1168,17 +960,15 @@ var file_da_v1_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_da_v1_tx_proto_goTypes = []interface{}{
 	(*MsgAttestDataCommitment)(nil),         // 0: da.v1.MsgAttestDataCommitment
 	(*MsgAttestDataCommitmentResponse)(nil), // 1: da.v1.MsgAttestDataCommitmentResponse
-	(*Attestation)(nil),                     // 2: da.v1.Attestation
 }
 var file_da_v1_tx_proto_depIdxs = []int32{
-	2, // 0: da.v1.MsgAttestDataCommitment.attestations:type_name -> da.v1.Attestation
-	0, // 1: da.v1.Msg.AttestDataRoot:input_type -> da.v1.MsgAttestDataCommitment
-	1, // 2: da.v1.Msg.AttestDataRoot:output_type -> da.v1.MsgAttestDataCommitmentResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: da.v1.Msg.AttestDataRoot:input_type -> da.v1.MsgAttestDataCommitment
+	1, // 1: da.v1.Msg.AttestDataRoot:output_type -> da.v1.MsgAttestDataCommitmentResponse
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_da_v1_tx_proto_init() }
@@ -1186,7 +976,6 @@ func file_da_v1_tx_proto_init() {
 	if File_da_v1_tx_proto != nil {
 		return
 	}
-	file_da_v1_types_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_da_v1_tx_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*MsgAttestDataCommitment); i {

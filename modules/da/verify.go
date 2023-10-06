@@ -2,6 +2,7 @@ package da
 
 import (
 	"context"
+	"crypto/ed25519"
 
 	"github.com/cosmos/cosmos-sdk/types"
 
@@ -33,6 +34,15 @@ func (k Keeper) VerifyDataCommitment(ctx context.Context, msg *v1.MsgAttestDataC
 		if err != nil {
 			return err
 		}
+
+		pk, err := validator.CmtConsPublicKey()
+		if err != nil {
+			return err
+		}
+
+		PublicKeyFromProto
+
+		pk.VerifySignature(voteExtension, attestation.Signature)
 
 	}
 

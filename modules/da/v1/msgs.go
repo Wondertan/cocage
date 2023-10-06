@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"errors"
 	"fmt"
 
 	"crypto/sha256"
@@ -14,29 +15,14 @@ const (
 )
 
 func (msg MsgAttestDataCommitment) ValidateBasic() error {
+	if len(msg.DataCommitments) == 0 {
+		return errors.New("No data commitments")
+	}
+
 	for idx, dataCommitment := range msg.DataCommitments {
 		if len(dataCommitment) != HashSize {
 			return fmt.Errorf("data commitment at index %d has invalid length. Expected: %d, got: %d", idx, len(dataCommitment), HashSize)
 		}
 	}
-
-	if msg.EndHeight == 0 {
-		return fmt.Errorf("end height cannot be zero")
-	}
-
-	for idx, attestation := range msg.Attestations {
-		if attestation == nil {
-			return fmt.Errorf("attestation at index %d is nil", idx)
-		}
-
-		if int(attestation.Size) > len(msg.DataCommitments) {
-			return fmt.Errorf("attestation size exceeded number of data commitments: %d > %d", attestation.Size, len(msg.DataCommitments))
-		}
-
-		if int(attestation.Size) > MaxAttestations {
-			return fmt.Errorf("attestation size exceeded max allowed: %d > %d", attestation.Size, MaxAttestations)
-		}
-	}
-
 	return nil
 }
