@@ -1,8 +1,6 @@
 syntax = "proto3";
 package da.v1;
 
-import "da/v1/types.proto";
-
 option go_package = "github.com/Wondertan/da/modules/da/v1";
 
 service Msg {
@@ -11,8 +9,6 @@ service Msg {
 
 message MsgAttestDataCommitment {
     repeated bytes data_commitments = 1;
-    uint64 end_height = 2;
-    repeated Attestation attestations = 3;
 }
 
 message MsgAttestDataCommitmentResponse {}
