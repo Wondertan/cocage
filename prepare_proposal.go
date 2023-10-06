@@ -14,7 +14,7 @@ import (
 	celestia "github.com/rollkit/celestia-openrpc"
 )
 
-func PrepareProposalHandler(da da.Keeper, cfg client.TxConfig, client celestia.Client) sdk.PrepareProposalHandler {
+func PrepareProposalHandler(da da.Keeper, cfg client.TxConfig, client *celestia.Client) sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
 		resp := &abci.ResponsePrepareProposal{}
 

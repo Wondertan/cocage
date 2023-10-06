@@ -3,6 +3,7 @@
 package simapp
 
 import (
+	"context"
 	"io"
 	"os"
 	"path/filepath"
@@ -37,6 +38,10 @@ import (
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	slashingkeeper "github.com/cosmos/cosmos-sdk/x/slashing/keeper"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
+
+	"github.com/Wondertan/da"
+	damodule "github.com/Wondertan/da/modules/da"
+	celestia "github.com/rollkit/celestia-openrpc"
 )
 
 // DefaultNodeHome default home directories for the application daemon
@@ -67,6 +72,7 @@ type SimApp struct {
 	CrisisKeeper   *crisiskeeper.Keeper
 	ParamsKeeper   paramskeeper.Keeper
 	EvidenceKeeper evidencekeeper.Keeper
+	DAKeeper       damodule.Keeper
 
 	// simulation manager
 	sm *module.SimulationManager
@@ -87,6 +93,8 @@ func NewSimApp(
 	db dbm.DB,
 	traceStore io.Writer,
 	loadLatest bool,
+	daClientAddr string,
+	daClientToken string,
 	appOpts servertypes.AppOptions,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) *SimApp {
@@ -121,6 +129,7 @@ func NewSimApp(
 		&app.CrisisKeeper,
 		&app.ParamsKeeper,
 		&app.EvidenceKeeper,
+		&app.DAKeeper,
 	); err != nil {
 		panic(err)
 	}
@@ -150,16 +159,17 @@ func NewSimApp(
 
 	app.sm.RegisterStoreDecoders()
 
-	// A custom InitChainer can be set if extra pre-init-genesis logic is required.
-	// By default, when using app wiring enabled module, this is not required.
-	// For instance, the upgrade module will set automatically the module version map in its init genesis thanks to app wiring.
-	// However, when registering a module manually (i.e. that does not support app wiring), the module version map
-	// must be set manually as follow. The upgrade module will de-duplicate the module version map.
-	//
-	// app.SetInitChainer(func(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
-	// 	app.UpgradeKeeper.SetModuleVersionMap(ctx, app.ModuleManager.GetVersionMap())
-	// 	return app.App.InitChainer(ctx, req)
-	// })
+	// setup a connection with the local da client
+	daClient, err := celestia.NewClient(context.TODO(), daClientAddr, daClientToken)
+	if err != nil {
+		panic(err)
+	}
+
+	// setup the handlers that enable the publishing of data commitments
+	// to the da module
+	app.SetPrepareProposal(da.PrepareProposalHandler(app.DAKeeper, app.txConfig, daClient))
+	app.SetProcessProposal(da.ProcessProposalHandler(app.txConfig.TxDecoder(), app.DAKeeper, daClient))
+	app.SetExtendVoteHandler(da.ExtendVoteHandler(app.DAKeeper, daClient))
 
 	if err := app.Load(loadLatest); err != nil {
 		panic(err)

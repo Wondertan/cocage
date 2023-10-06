@@ -12,7 +12,7 @@ import (
 	celestia "github.com/rollkit/celestia-openrpc"
 )
 
-func VoteExtensionHandler(da da.Keeper, client celestia.Client) sdk.ExtendVoteHandler {
+func ExtendVoteHandler(da da.Keeper, client *celestia.Client) sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
 		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
 		defer cancel()
