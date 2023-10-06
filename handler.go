@@ -68,12 +68,17 @@ func VoteExtensionHandler(da da.Keeper, client celestia.Client) sdk.ExtendVoteHa
 
 func PrepareProposalHandler() sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
+		// create the MsgAttestDataCommitment from the req.LocalLastCommit.Votes (which contain the vote extensions)
+		// insert the transaction as the first transaction in the response
+		// check that the max size is not reached
 		return &abci.ResponsePrepareProposal{Txs: req.Txs}, nil
 	}
 }
 
 func ProcessProposalHandler() sdk.ProcessProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestProcessProposal) (*abci.ResponseProcessProposal, error) {
+		// check if there is a MsgAttestDataCommitment in the proposal
+		// verify it using the da keeper logic
 		return &abci.ResponseProcessProposal{}, nil
 	}
 }

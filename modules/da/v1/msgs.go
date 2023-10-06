@@ -11,7 +11,7 @@ const (
 
 	// There can only be 10 data root attestations per block
 	MaxAttestations = 10
-) 
+)
 
 func (msg MsgAttestDataCommitment) ValidateBasic() error {
 	for idx, dataCommitment := range msg.DataCommitments {
