@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	v1 "github.com/Wondertan/da/modules/da/v1"
+	v1 "github.com/Wondertan/cocage/modules/da/v1"
 )
 
 var _ v1.MsgServer = msgServer{}

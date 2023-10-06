@@ -8,7 +8,7 @@ import (
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/depinject"
 	sdkerrors "cosmossdk.io/errors"
-	v1 "github.com/Wondertan/da/modules/da/v1"
+	v1 "github.com/Wondertan/cocage/modules/da/v1"
 	"github.com/cosmos/cosmos-sdk/client"
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"

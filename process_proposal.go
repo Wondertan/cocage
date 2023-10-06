@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Wondertan/da/modules/da"
-	v1 "github.com/Wondertan/da/modules/da/v1"
+	"github.com/Wondertan/cocage/modules/da"
+	v1 "github.com/Wondertan/cocage/modules/da/v1"
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	celestia "github.com/rollkit/celestia-openrpc"
