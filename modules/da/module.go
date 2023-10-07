@@ -15,7 +15,6 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	staking "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 )
 
@@ -121,9 +120,7 @@ func init() {
 type ModuleInputs struct {
 	depinject.In
 
-	Cdc           codec.BinaryCodec
-	StoreService  store.KVStoreService
-	StakingKeeper staking.Keeper
+	StoreService store.KVStoreService
 }
 
 type ModuleOutputs struct {
@@ -135,9 +132,7 @@ type ModuleOutputs struct {
 
 func ProvideModule(in ModuleInputs) ModuleOutputs {
 	keeper := NewKeeper(
-		in.Cdc,
 		in.StoreService,
-		in.StakingKeeper,
 	)
 
 	module := NewAppModule(keeper)

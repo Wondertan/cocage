@@ -1,11 +1,16 @@
 syntax = "proto3";
-
 package da.v1;
+
+import "cosmos/app/v1alpha1/module.proto";
 
 option go_package = "github.com/Wondertan/da/modules/da/v1";
 
 // Module is the config object of the da module.
 message Module {
+  option (cosmos.app.v1alpha1.module) = {
+    go_import: "github.com/Wondertan/da/modules/da/v1"
+  };
+
   // authority defines the custom module authority. If not set, defaults to the governance module.
   string authority = 1;
 }
