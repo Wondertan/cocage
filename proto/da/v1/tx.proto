@@ -3,10 +3,6 @@ package da.v1;
 
 option go_package = "github.com/Wondertan/da/modules/da/v1";
 
-service Msg {
-    rpc AttestDataRoot(MsgAttestDataCommitment) returns(MsgAttestDataCommitmentResponse);
-}
-
 message MsgAttestDataCommitment {
     repeated bytes data_commitments = 1;
 }
