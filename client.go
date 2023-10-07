@@ -2,22 +2,16 @@ package da
 
 import (
 	"context"
+	"fmt"
 
 	celestia "github.com/rollkit/celestia-openrpc"
-	"github.com/rollkit/celestia-openrpc/types/das"
-	"github.com/rollkit/celestia-openrpc/types/header"
 )
 
 type Client interface {
-	GetVerifiedRangeByHeight(
-		context.Context,
-		*header.ExtendedHeader,
-		uint64,
-	) ([]*header.ExtendedHeader, error)
+	// NOTE: range is end inclusive at the moment
+	DataCommitments(context.Context, uint64, uint64) ([][]byte, error)
 
-	GetByHeight(context.Context, uint64) (*header.ExtendedHeader, error)
-
-	SamplingStats(ctx context.Context) (das.SamplingStats, error)
+	LatestSampledHeight(ctx context.Context) (uint64, error)
 }
 
 type celestiaClient struct {
@@ -28,18 +22,33 @@ func NewClient(client *celestia.Client) Client {
 	return celestiaClient{client}
 }
 
-func (c celestiaClient) GetVerifiedRangeByHeight(
+func (c celestiaClient) DataCommitments(
 	ctx context.Context,
-	hdr *header.ExtendedHeader,
+	startHeight,
 	endHeight uint64,
-) ([]*header.ExtendedHeader, error) {
-	return c.Client.Header.GetVerifiedRangeByHeight(ctx, hdr, endHeight)
+) ([][]byte, error) {
+	latestHeader, err := c.Client.Header.GetByHeight(ctx, startHeight)
+	if err != nil {
+		return nil, fmt.Errorf("getting latest commitment DA header height %d: %w", startHeight, err)
+	}
+
+	hdrs, err := c.Client.Header.GetVerifiedRangeByHeight(ctx, latestHeader, endHeight+1)
+	if err != nil {
+		return nil, fmt.Errorf("getting DA header range(%d;%d] for sampling: %w", latestHeader.Height(), endHeight, err)
+	}
+
+	roots := make([][]byte, len(hdrs))
+	for i, hdr := range hdrs {
+		roots[i] = hdr.DataHash
+	}
+
+	return roots, nil
 }
 
-func (c celestiaClient) GetByHeight(ctx context.Context, height uint64) (*header.ExtendedHeader, error) {
-	return c.Client.Header.GetByHeight(ctx, height)
-}
-
-func (c celestiaClient) SamplingStats(ctx context.Context) (das.SamplingStats, error) {
-	return c.Client.DAS.SamplingStats(ctx)
+func (c celestiaClient) LatestSampledHeight(ctx context.Context) (uint64, error) {
+	stats, err := c.Client.DAS.SamplingStats(ctx)
+	if err != nil {
+		return 0, err
+	}
+	return stats.SampledChainHead, nil
 }

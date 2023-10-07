@@ -6,7 +6,6 @@ import (
 
 	"cosmossdk.io/core/store"
 	storetypes "cosmossdk.io/store/types"
-	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/runtime"
 
 	staking "github.com/cosmos/cosmos-sdk/x/staking/keeper"
@@ -15,18 +14,15 @@ import (
 const ModuleName = "da"
 
 type Keeper struct {
-	cdc           codec.BinaryCodec
 	storeService  store.KVStoreService
 	stakingKeeper staking.Keeper
 }
 
 func NewKeeper(
-	cdc codec.BinaryCodec,
 	storeService store.KVStoreService,
 	stakingKeeper staking.Keeper,
 ) Keeper {
 	return Keeper{
-		cdc:           cdc,
 		storeService:  storeService,
 		stakingKeeper: stakingKeeper,
 	}

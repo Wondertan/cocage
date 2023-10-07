@@ -22,17 +22,17 @@ func ExtendVoteHandler(da da.Keeper, client Client) sdk.ExtendVoteHandler {
 			return resp, fmt.Errorf("getting latest commitment DA height: %w", err)
 		}
 
-		stats, err := client.SamplingStats(timeoutCtx)
+		latestSampledHeight, err := client.LatestSampledHeight(timeoutCtx)
 		if err != nil {
 			return resp, fmt.Errorf("getting DA sampling stats: %w", err)
 		}
 
-		if latestHeight >= stats.SampledChainHead {
+		if latestHeight >= latestSampledHeight {
 			// no new heights sampled, skip...
 			return resp, nil
 		}
 
-		resp.VoteExtension = binary.LittleEndian.AppendUint64(nil, stats.SampledChainHead)
+		resp.VoteExtension = binary.LittleEndian.AppendUint64(nil, latestSampledHeight)
 		return resp, err
 	}
 }

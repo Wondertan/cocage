@@ -41,19 +41,9 @@ func PrepareProposalHandler(da da.Keeper, cfg client.TxConfig, client Client) sd
 		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
 		defer cancel()
 
-		latestHeader, err := client.GetByHeight(timeoutCtx, latestHeight)
+		roots, err := client.DataCommitments(timeoutCtx, latestHeight+1, endHeight)
 		if err != nil {
-			return resp, fmt.Errorf("getting latest commitment DA header height %d: %w", latestHeight, err)
-		}
-
-		hdrs, err := client.GetVerifiedRangeByHeight(timeoutCtx, latestHeader, endHeight+1)
-		if err != nil {
-			return resp, fmt.Errorf("getting DA header range(%d;%d] for sampling: %w", latestHeader.Height(), endHeight, err)
-		}
-
-		roots := make([][]byte, len(hdrs))
-		for i, hdr := range hdrs {
-			roots[i] = hdr.DataHash
+			return resp, err
 		}
 
 		bldr := cfg.NewTxBuilder()

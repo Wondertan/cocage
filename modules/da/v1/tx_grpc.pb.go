@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: da/v1/tx.proto
 
-package v1
+package dav1
 
 import (
 	context "context"

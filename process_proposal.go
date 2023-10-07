@@ -29,30 +29,32 @@ func ProcessProposalHandler(dec sdk.TxDecoder, da da.Keeper, client Client) sdk.
 		if err != nil {
 			return reject(), fmt.Errorf("getting latest commitment DA height: %w", err)
 		}
+		startHeight := latestHeight + 1
+		endHeight := latestHeight + uint64(len(msg.DataCommitments))
 
 		timeoutCtx, cancel := context.WithTimeout(ctx.Context(), time.Second) // ensure we don't block for too long
 		defer cancel()
 
-		stats, err := client.SamplingStats(timeoutCtx)
+		latestSampledHeight, err := client.LatestSampledHeight(timeoutCtx)
+		if err != nil {
+			return reject(), nil
+		}
+
+		// Check if the data commitments are more than what the node has locally sampled.
+		// If so then either the proposer has been malicious or has seen 2/3+ of the other
+		// validators indicate that they have a later height
+		if latestSampledHeight < endHeight {
+			return reject(), nil
+		}
+
+		ourDataCommitments, err := client.DataCommitments(timeoutCtx, startHeight, endHeight)
 		if err != nil {
 			return reject(), nil
 		}
 
 		for idx, dataCommitment := range msg.DataCommitments {
-			height := uint64(idx) + latestHeight + 1
-			if stats.SampledChainHead < height {
-				return reject(), nil
-			}
-			// TODO: these should theoretically be all the heights
-			// that the node has already sampled as it would have
-			// already indicated the sampled heights in the vote extensions.
-			// What would be more reliable is to cache the sampled header's
-			// data roots so we don't have to make a second remote call
-			header, err := client.GetByHeight(timeoutCtx, height)
-			if err != nil {
-				return reject(), nil
-			}
-			if !bytes.Equal(header.DataHash, dataCommitment) {
+			// if the proposer has proposed a different data commitment for any of the heights, we reject
+			if !bytes.Equal(ourDataCommitments[idx], dataCommitment) {
 				return reject(), nil
 			}
 		}

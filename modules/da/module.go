@@ -121,7 +121,6 @@ func init() {
 type ModuleInputs struct {
 	depinject.In
 
-	Cdc           codec.BinaryCodec
 	StoreService  store.KVStoreService
 	StakingKeeper staking.Keeper
 }
@@ -135,7 +134,6 @@ type ModuleOutputs struct {
 
 func ProvideModule(in ModuleInputs) ModuleOutputs {
 	keeper := NewKeeper(
-		in.Cdc,
 		in.StoreService,
 		in.StakingKeeper,
 	)
