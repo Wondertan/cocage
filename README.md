@@ -1,4 +1,6 @@
 # CoCage
+> This name is a placeholder and will be changed in the future. Currently, it's a meme ref and answer
+> to [the question](https://x.com/nickwh8te/status/1682779788350566402?s=20).
 
 CoCage is Cosmos SDK Data Availability/Data Publication Module. This enables on-chain verification of 
 published data by an external network such as Celestia. Validators continually run a side-car process(light client) 
