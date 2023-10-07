@@ -42,7 +42,8 @@ To explain the utility of the system, it's best to explain the user flow of send
 ### Vote Extensions
 
 On every new block, validators check if their DP Light Node sampled any new DP network heights and if so they submit a vote
-extension with the latest DP height sampled.
+extension with the latest DP height sampled. We don't use VerifyVoteExtension, and we verify submitted heights in
+PrepareProposal.
 
 ### Prepare Proposal
 
