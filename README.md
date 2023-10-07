@@ -7,14 +7,14 @@ commitments (merkle roots) over the data published by the external network.
 
 ## Motivation
 
-CoCage is foundation for future fraud-provable IBC bridging. In order for Cosmos to be able to bridge to other chains 
+CoCage is a foundational component for **trust minimized proof-based IBC bridging** (as opposed to committee based). In order for Cosmos to be able to bridge to other chains 
 and Rollups in trust minimized way, it needs to be able to verify the data published by those chains. The goal of CoCage
-is to provide a reusable module that enables data publication verification for variety of publication networks. 
+is to provide a reusable module that enables data publication verification for a variety of publication networks. 
+
+The original design was inspired by a collaboration between [Neutron](https://neutron.org/) and [Celestia](httsp://celestia.org). CoCage builds on top of Neutron's design and simplifies
+it substantially.
 
 ## Design
-
-The original design was born within [Neutron](https://neutron.org/). CoCage builds on top of Neutron's design and simplifies
-it substantially.
 
 ### Vote Extensions
 
