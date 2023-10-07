@@ -17,6 +17,9 @@ import (
 func PrepareProposalHandler(da da.Keeper, cfg client.TxConfig, client *celestia.Client) sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
 		resp := &abci.ResponsePrepareProposal{}
+		if len(req.LocalLastCommit.Votes) == 0 {
+			return resp, nil
+		}
 
 		latestHeight, err := da.LatestDataCommitmentHeight(ctx)
 		if err != nil {
