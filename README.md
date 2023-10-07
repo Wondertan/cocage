@@ -1,6 +1,6 @@
 # CoCage
 
-> This name is a placeholder and will be changed in the future. Currently, it's a meme ref and answer
+> This name is a placeholder and will be changed in the future. Currently, it's [a meme ref](https://x.com/jon_charb/status/1672086508637937664?s=20) and answer
 > to [the question](https://x.com/nickwh8te/status/1682779788350566402?s=20).
 
 CoCage is a lightweight Cosmos SDK Data Publication* (DP) Module. This enables on-chain verification of 
