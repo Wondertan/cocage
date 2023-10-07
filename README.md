@@ -19,9 +19,9 @@ is to provide a reusable module that enables data publication verification for a
 The original design was inspired by a collaboration between [Neutron](https://neutron.org/) and [Celestia](httsp://celestia.org). CoCage builds on top of Neutron's design and simplifies
 it substantially.
 
-## Design
+## Use Case
 
-![Design](./flow.svg)
+![user flow](./flow.svg)
 
 To explain the utility of the system, it's best to explain the user flow of sending messages between a rollup and Cosmos SDK based chain. IBC relies on the ability to verify that a message has been correctly executed on a counterparty chain. For committee based chains this concretely means a quorum of validators signing over the `AppHash`. For rollups this means proof that the data was published as well as proof that the `AppHash` is valid (either a fraud proof or validity proof). An example of the flow is as follows:
 
@@ -36,6 +36,8 @@ To explain the utility of the system, it's best to explain the user flow of send
 - A rollup relayer submits an IBC transaction including the rollups header (with the `AppHash`)
 - The rollup relayer or another relayer includes either a validity proof or fraud proof. If there are no fraud proofs within a window, the chain trusts the rollups `AppHash`
 - The transfer module can now use the `AppHash` to verify the part of the state that it is interested in.
+
+## Design
 
 ### Vote Extensions
 
