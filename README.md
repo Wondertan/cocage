@@ -3,6 +3,8 @@
 > This name is a placeholder and will be changed in the future. Currently, it's [a meme ref](https://x.com/jon_charb/status/1672086508637937664?s=20) and answer
 > to [the question](https://x.com/nickwh8te/status/1682779788350566402?s=20).
 
+> This project won a Cosmoverse Hackmos 2023 hackathon!
+
 CoCage is a lightweight Cosmos SDK Data Publication* (DP) Module. This enables on-chain verification of 
 published data by an external network such as Celestia. Validators continually run a side-car process(light client) 
 that samples the published blocks on the external network. They then employ vote extensions to attest to data 
@@ -65,6 +67,7 @@ can verify proofs against the commitments.
 
 * Abstract the DP network interface, so that we can support multiple DP networks.
 * Add support for IBC client to verify proofs against the DP network commitments.
+* Pruning expired commitments
 
 ## Supported Networks
 
